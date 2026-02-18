@@ -1,5 +1,5 @@
 {
-  "name": "@DNSGeek/vscode-mmbasic",
+  "name": "@dnsgeek/vscode-mmbasic",
   "displayName": "MMBasic",
   "description": "MMBasic language support with serial port communication",
   "repository": {
