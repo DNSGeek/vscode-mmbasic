@@ -1,13 +1,19 @@
 {
-  "name": "@DNSGeek/vscode-mmbasic",
+  "name": "@dnsgeek/vscode-mmbasic",
   "displayName": "MMBasic",
   "description": "MMBasic language support with serial port communication",
-  "repository": "https://github.com/DNSGeek/vscode-mmbasic.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DNSGeek/vscode-mmbasic.git"
+  },
   "version": "1.0.0",
   "publisher": "DNSGeek",
   "engines": {
     "vscode": "^1.75.0"
   },
+  "publishConfig": {
+  "registry": "https://npm.pkg.github.com"
+},
   "categories": [
     "Programming Languages",
     "Other"
