@@ -2,8 +2,9 @@
   "name": "mmbasic-vscode",
   "displayName": "MMBasic",
   "description": "MMBasic language support with serial port communication",
+  "repository": "https://github.com/DNSGeek/vscode-mmbasic.git",
   "version": "1.0.0",
-  "publisher": "your-publisher-name",
+  "publisher": "DNSGeek",
   "engines": {
     "vscode": "^1.75.0"
   },
