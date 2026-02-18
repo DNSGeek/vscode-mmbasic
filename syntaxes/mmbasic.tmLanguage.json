@@ -1,0 +1,170 @@
+{
+  "scopeName": "source.mmbasic",
+  "name": "MMBasic",
+  "fileTypes": [
+    "bas",
+    "mmb"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#hardware-commands"
+    },
+    {
+      "include": "#graphics-commands"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#variables"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.apostrophe.mmbasic",
+          "match": "'.*$"
+        },
+        {
+          "name": "comment.line.rem.mmbasic",
+          "match": "(?i)\\bREM\\b.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.mmbasic",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.mmbasic",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.mmbasic",
+          "match": "(?i)&H[0-9A-F]+"
+        },
+        {
+          "name": "constant.numeric.binary.mmbasic",
+          "match": "(?i)&B[01]+"
+        },
+        {
+          "name": "constant.numeric.octal.mmbasic",
+          "match": "(?i)&O[0-7]+"
+        },
+        {
+          "name": "constant.numeric.float.mmbasic",
+          "match": "\\b[0-9]+\\.[0-9]+([Ee][+-]?[0-9]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.mmbasic",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.mmbasic",
+          "match": "(?i)\\b(IF|THEN|ELSE|ELSEIF|END IF|FOR|TO|STEP|NEXT|DO|LOOP|WHILE|WEND|UNTIL|SELECT CASE|CASE|END SELECT|GOTO|GOSUB|RETURN|EXIT|CONTINUE)\\b"
+        },
+        {
+          "name": "keyword.other.mmbasic",
+          "match": "(?i)\\b(SUB|END SUB|FUNCTION|END FUNCTION|DIM|LOCAL|STATIC|CONST|DATA|READ|RESTORE|ERASE|OPTION|BASE|EXPLICIT|DEFAULT)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.mmbasic",
+          "match": "(?i)\\b(AND|OR|NOT|XOR|MOD)\\b"
+        },
+        {
+          "name": "storage.type.mmbasic",
+          "match": "(?i)\\b(INTEGER|FLOAT|STRING|AS)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.mmbasic",
+          "match": "(?i)\\b(ABS|ASC|ATN|CHR\\$|CINT|COS|DATE\\$|DAY|EOF|EXP|FIX|HEX\\$|INKEY\\$|INPUT\\$|INSTR|INT|LEFT\\$|LEN|LOG|LCASE\\$|MID\\$|MMINFO|OCT\\$|PEEK|RIGHT\\$|RND|SGN|SIN|SPACE\\$|SQR|STR\\$|STRING\\$|TAB|TAN|TIME\\$|TIMER|UCASE\\$|VAL)\\b"
+        },
+        {
+          "name": "support.function.io.mmbasic",
+          "match": "(?i)\\b(OPEN|CLOSE|PRINT|INPUT|LINE INPUT|WRITE|SEEK|LOC|LOF)\\b"
+        }
+      ]
+    },
+    "hardware-commands": {
+      "patterns": [
+        {
+          "name": "support.function.hardware.mmbasic",
+          "match": "(?i)\\b(SETPIN|PIN|PULSE|PWM|SERVO|ADC|DAC|I2C|SPI|SERIAL|SETTICK|PAUSE|CPU|MEMORY|PORT|INTERRUPT)\\b"
+        }
+      ]
+    },
+    "graphics-commands": {
+      "patterns": [
+        {
+          "name": "support.function.graphics.mmbasic",
+          "match": "(?i)\\b(CLS|COLOUR|COLOR|PIXEL|LINE|BOX|CIRCLE|ARC|TRIANGLE|TEXT|FONT|PAGE|BLIT|SPRITE|LOAD|SAVE|MODE)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.mmbasic",
+          "match": "\\+|\\-|\\*|\\/|\\\\|\\^"
+        },
+        {
+          "name": "keyword.operator.comparison.mmbasic",
+          "match": "=|<>|<|>|<=|>="
+        },
+        {
+          "name": "keyword.operator.assignment.mmbasic",
+          "match": "="
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.string.mmbasic",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\$"
+        },
+        {
+          "name": "variable.other.integer.mmbasic",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*%"
+        },
+        {
+          "name": "variable.other.mmbasic",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

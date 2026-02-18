@@ -1,0 +1,151 @@
+{
+  "name": "mmbasic-vscode",
+  "displayName": "MMBasic",
+  "description": "MMBasic language support with serial port communication",
+  "version": "1.0.0",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:mmbasic"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "mmbasic",
+        "aliases": [
+          "MMBasic",
+          "mmbasic"
+        ],
+        "extensions": [
+          ".bas",
+          ".mmb"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mmbasic",
+        "scopeName": "source.mmbasic",
+        "path": "./syntaxes/mmbasic.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "mmbasic.connectSerial",
+        "title": "MMBasic: Connect to Device"
+      },
+      {
+        "command": "mmbasic.disconnectSerial",
+        "title": "MMBasic: Disconnect from Device"
+      },
+      {
+        "command": "mmbasic.sendFile",
+        "title": "MMBasic: Send Current File to Device"
+      },
+      {
+        "command": "mmbasic.sendSelection",
+        "title": "MMBasic: Send Selection to Device"
+      },
+      {
+        "command": "mmbasic.runProgram",
+        "title": "MMBasic: Run Program on Device"
+      },
+      {
+        "command": "mmbasic.stopProgram",
+        "title": "MMBasic: Stop Program"
+      },
+      {
+        "command": "mmbasic.listFiles",
+        "title": "MMBasic: List Files on Device"
+      },
+      {
+        "command": "mmbasic.clearTerminal",
+        "title": "MMBasic: Clear Terminal"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "mmbasic.sendFile",
+        "key": "ctrl+shift+u",
+        "mac": "cmd+shift+u",
+        "when": "editorLangId == mmbasic"
+      },
+      {
+        "command": "mmbasic.runProgram",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorLangId == mmbasic"
+      },
+      {
+        "command": "mmbasic.sendSelection",
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "when": "editorTextFocus && editorLangId == mmbasic"
+      }
+    ],
+    "configuration": {
+      "title": "MMBasic",
+      "properties": {
+        "mmbasic.serialPort": {
+          "type": "string",
+          "default": "",
+          "description": "Default serial port (e.g., COM3, /dev/ttyUSB0)"
+        },
+        "mmbasic.baudRate": {
+          "type": "number",
+          "default": 38400,
+          "enum": [
+            9600,
+            19200,
+            38400,
+            57600,
+            115200
+          ],
+          "description": "Serial baud rate"
+        },
+        "mmbasic.autoConnect": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically connect on startup"
+        },
+        "mmbasic.lineEnding": {
+          "type": "string",
+          "default": "\\r\\n",
+          "enum": [
+            "\\n",
+            "\\r",
+            "\\r\\n"
+          ],
+          "description": "Line ending for serial communication"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "serialport": "^12.0.0"
+  }
+}
