@@ -1,5 +1,5 @@
 {
-  "name": "@dnsgeek/vscode-mmbasic",
+  "name": "@DNSGeek/vscode-mmbasic",
   "displayName": "MMBasic",
   "description": "MMBasic language support with serial port communication",
   "repository": {
@@ -17,9 +17,6 @@
   "categories": [
     "Programming Languages",
     "Other"
-  ],
-  "activationEvents": [
-    "onLanguage:mmbasic"
   ],
   "main": "./out/extension.js",
   "contributes": {
