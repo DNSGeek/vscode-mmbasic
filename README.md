@@ -1,6 +1,8 @@
 # MMBasic for VSCode
 
-Complete MMBasic language support for Visual Studio Code, including syntax highlighting and serial port communication for Micromite and other MMBasic devices.
+Complete MMBasic language support for Visual Studio Code, including syntax highlighting and serial port communication for Micromite, PicoMite and other MMBasic devices.
+
+**Updated for PicoMite V6.02.00** - Syntax highlighting and autocomplete based on the official PicoMite User Manual.
 
 ## Features
 

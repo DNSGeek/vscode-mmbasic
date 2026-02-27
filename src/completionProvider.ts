@@ -27,6 +27,9 @@ export class MMBasicCompletionProvider implements vscode.CompletionItemProvider 
         // I/O commands
         this.addIOCompletions(completions);
 
+        // WiFi commands (for WebMite)
+        this.addWiFiCompletions(completions);
+
         return completions;
     }
 
@@ -159,8 +162,8 @@ export class MMBasicCompletionProvider implements vscode.CompletionItemProvider 
     private addHardwareCompletions(completions: vscode.CompletionItem[]): void {
         // SETPIN
         const setpinItem = new vscode.CompletionItem('SETPIN', vscode.CompletionItemKind.Function);
-        setpinItem.insertText = new vscode.SnippetString('SETPIN ${1:pin}, ${2|DIN,DOUT,AIN,COUT,PWM,SERVO|}');
-        setpinItem.documentation = new vscode.MarkdownString('Configure a pin mode\n\n**Modes:** DIN, DOUT, AIN, COUT, PWM, SERVO');
+        setpinItem.insertText = new vscode.SnippetString('SETPIN ${1:pin}, ${2|DIN,DOUT,AIN,CIN,FIN,PIN,INTH,INTL,COUT,PWM,SERVO,I2C SDA,I2C SCL,I2C2 SDA,I2C2 SCL,SPI RX,SPI TX,SPI CLK,SPI2 RX,SPI2 TX,SPI2 CLK,COM1 TX,COM1 RX,COM2 TX,COM2 RX,1WIRE,IR,DS18B20,DHT22,KEYPAD,OFF|}');
+        setpinItem.documentation = new vscode.MarkdownString('Configure a pin mode\n\n**Modes:**\n- DIN/DOUT: Digital input/output\n- AIN: Analog input\n- CIN: Count input\n- FIN: Frequency input\n- PIN: Period input\n- INTH/INTL: Interrupt on high/low\n- COUT: Count output\n- PWM: PWM output\n- SERVO: Servo output\n- I2C/I2C2: I2C interfaces\n- SPI/SPI2: SPI interfaces\n- COM1/COM2: Serial ports\n- And more...');
         completions.push(setpinItem);
 
         // PIN
@@ -273,6 +276,38 @@ export class MMBasicCompletionProvider implements vscode.CompletionItemProvider 
         colorItem.insertText = new vscode.SnippetString('COLOR ${1:red}, ${2:green}, ${3:blue}');
         colorItem.documentation = new vscode.MarkdownString('Set drawing color (RGB 0-255)');
         completions.push(colorItem);
+    }
+
+    private addWiFiCompletions(completions: vscode.CompletionItem[]): void {
+        // WEB
+        const webItem = new vscode.CompletionItem('WEB', vscode.CompletionItemKind.Function);
+        webItem.insertText = new vscode.SnippetString('WEB ${1|OPEN CLIENT,OPEN SERVER,OPEN UDP,CLOSE,TRANSMIT|}');
+        webItem.documentation = new vscode.MarkdownString('WiFi/Web commands for WebMite\n\n- OPEN CLIENT: Connect as TCP client\n- OPEN SERVER: Start TCP server\n- OPEN UDP: Open UDP socket\n- CLOSE: Close connection\n- TRANSMIT: Send data');
+        completions.push(webItem);
+
+        // WEB SERVER
+        const webServerItem = new vscode.CompletionItem('WEB OPEN SERVER', vscode.CompletionItemKind.Function);
+        webServerItem.insertText = new vscode.SnippetString('WEB OPEN SERVER ${1:port}');
+        webServerItem.documentation = new vscode.MarkdownString('Start a web server on specified port');
+        completions.push(webServerItem);
+
+        // TFTP
+        const tftpItem = new vscode.CompletionItem('TFTP', vscode.CompletionItemKind.Function);
+        tftpItem.insertText = new vscode.SnippetString('TFTP ${1|GET,PUT|} "${2:filename}"');
+        tftpItem.documentation = new vscode.MarkdownString('Transfer files via TFTP\n\n- GET: Download file\n- PUT: Upload file');
+        completions.push(tftpItem);
+
+        // NTP
+        const ntpItem = new vscode.CompletionItem('NTP', vscode.CompletionItemKind.Function);
+        ntpItem.insertText = new vscode.SnippetString('NTP');
+        ntpItem.documentation = new vscode.MarkdownString('Get time from NTP server');
+        completions.push(ntpItem);
+
+        // EMAIL
+        const emailItem = new vscode.CompletionItem('EMAIL', vscode.CompletionItemKind.Function);
+        emailItem.insertText = new vscode.SnippetString('EMAIL "${1:to}", "${2:subject}", "${3:message}"');
+        emailItem.documentation = new vscode.MarkdownString('Send email via SMTP');
+        completions.push(emailItem);
     }
 
     private addIOCompletions(completions: vscode.CompletionItem[]): void {

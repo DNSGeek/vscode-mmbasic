@@ -90,19 +90,19 @@
       "patterns": [
         {
           "name": "keyword.control.mmbasic",
-          "match": "(?i)\\b(IF|THEN|ELSE|ELSEIF|END IF|FOR|TO|STEP|NEXT|DO|LOOP|WHILE|WEND|UNTIL|SELECT CASE|CASE|END SELECT|GOTO|GOSUB|RETURN|EXIT|CONTINUE)\\b"
+          "match": "(?i)\\b(IF|THEN|ELSE|ELSEIF|END IF|ENDIF|FOR|TO|STEP|NEXT|DO|LOOP|WHILE|WEND|UNTIL|SELECT CASE|CASE|IS|END SELECT|GOTO|GOSUB|RETURN|EXIT|CONTINUE|ON ERROR|ERROR|SKIP)\\b"
         },
         {
           "name": "keyword.other.mmbasic",
-          "match": "(?i)\\b(SUB|END SUB|FUNCTION|END FUNCTION|DIM|LOCAL|STATIC|CONST|DATA|READ|RESTORE|ERASE|OPTION|BASE|EXPLICIT|DEFAULT)\\b"
+          "match": "(?i)\\b(SUB|END SUB|FUNCTION|END FUNCTION|DIM|LOCAL|STATIC|CONST|DATA|READ|RESTORE|ERASE|OPTION|AUTOSAVE|AUTORUN|BASE|BREAK|EXPLICIT|DEFAULT|ESCAPE|RUN|NEW|EDIT|LIST|CLEAR|MEMORY|FILES|LOAD|SAVE|CHAIN|KILL|MKDIR|RMDIR|CHDIR|COPY|RENAME|LIBRARY|END|TROFF|TRON|VAR)\\b"
         },
         {
           "name": "keyword.operator.logical.mmbasic",
-          "match": "(?i)\\b(AND|OR|NOT|XOR|MOD)\\b"
+          "match": "(?i)\\b(AND|OR|NOT|XOR|MOD|INV)\\b"
         },
         {
           "name": "storage.type.mmbasic",
-          "match": "(?i)\\b(INTEGER|FLOAT|STRING|AS)\\b"
+          "match": "(?i)\\b(INTEGER|FLOAT|STRING|AS|LENGTH)\\b"
         }
       ]
     },
@@ -110,11 +110,15 @@
       "patterns": [
         {
           "name": "support.function.builtin.mmbasic",
-          "match": "(?i)\\b(ABS|ASC|ATN|CHR\\$|CINT|COS|DATE\\$|DAY|EOF|EXP|FIX|HEX\\$|INKEY\\$|INPUT\\$|INSTR|INT|LEFT\\$|LEN|LOG|LCASE\\$|MID\\$|MMINFO|OCT\\$|PEEK|RIGHT\\$|RND|SGN|SIN|SPACE\\$|SQR|STR\\$|STRING\\$|TAB|TAN|TIME\\$|TIMER|UCASE\\$|VAL)\\b"
+          "match": "(?i)\\b(ABS|ASC|ATN|BIN\\$|CALL|CHR\\$|CHOICE|CINT|COS|DATE\\$|DATETIME\\$|DAY|DEVICE|DIR\\$|DISTANCE|EPOCH|EOF|ERRMSG\\$|ERRNO|EXP|FIELD\\$|FIX|FORMAT\\$|HEX\\$|INKEY\\$|INPUT\\$|INSTR|INT|JSON\\$|LCASE\\$|LEFT\\$|LEN|LGETBYTE|LGETSTR\\$|LINSTR|LOG|LCOMPARE|LLEN|MID\\$|MMINFO|MMCMDLINE\\$|MMPROGNAME\\$|OCT\\$|PEEK|PI|PIXEL|RANDOM|RGB|RIGHT\\$|RND|SGN|SIN|SPACE\\$|SQR|STR\\$|STRING\\$|TAB|TAN|UCASE\\$|VAL|VERSION)\\b"
         },
         {
           "name": "support.function.io.mmbasic",
-          "match": "(?i)\\b(OPEN|CLOSE|PRINT|INPUT|LINE INPUT|WRITE|SEEK|LOC|LOF)\\b"
+          "match": "(?i)\\b(OPEN|CLOSE|PRINT|INPUT|LINE INPUT|WRITE|SEEK|LOC|LOF|EOF)\\b"
+        },
+        {
+          "name": "support.function.time.mmbasic", 
+          "match": "(?i)\\b(TIME\\$|TIMER|DATE\\$|DATETIME\\$|EPOCH)\\b"
         }
       ]
     },
@@ -122,7 +126,7 @@
       "patterns": [
         {
           "name": "support.function.hardware.mmbasic",
-          "match": "(?i)\\b(SETPIN|PIN|PULSE|PWM|SERVO|ADC|DAC|I2C|SPI|SERIAL|SETTICK|PAUSE|CPU|MEMORY|PORT|INTERRUPT)\\b"
+          "match": "(?i)\\b(SETPIN|PIN|PULSIN|PULSE|PWM|SERVO|ADC|DAC|I2C|I2C2|SPI|SPI2|SERIAL|COM1|COM2|SETTICK|PAUSE|CPU|MEMORY|PORT|INTERRUPT|IR|RTC|TEMPR|HUMID|KEYPAD|DISTANCE|WS2812|DHT22|DS18B20|ONEWIRE|PS2|USB|INFRARED|GPS|WATCHDOG|BACKLIGHT|FRAMEBUFFER|GAMEPAD)\\b"
         }
       ]
     },
@@ -130,7 +134,7 @@
       "patterns": [
         {
           "name": "support.function.graphics.mmbasic",
-          "match": "(?i)\\b(CLS|COLOUR|COLOR|PIXEL|LINE|BOX|CIRCLE|ARC|TRIANGLE|TEXT|FONT|PAGE|BLIT|SPRITE|LOAD|SAVE|MODE)\\b"
+          "match": "(?i)\\b(CLS|COLOUR|COLOR|PIXEL|LINE|BOX|RBOX|CIRCLE|ARC|TRIANGLE|TEXT|PRINT|FONT|PAGE|BLIT|SPRITE|LOAD IMAGE|SAVE IMAGE|MODE|GUI|HIDE|SHOW|DRAW|POLYGON|TILE|FRAMEBUFFER|LAYER|BITMAP|IMAGE|REFRESH)\\b"
         }
       ]
     },

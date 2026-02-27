@@ -2,6 +2,19 @@
 
 All notable changes to the MMBasic VSCode extension.
 
+## [1.1.0] - 2026-02-27
+
+### Updated
+- **Synchronized with PicoMite V6.02.00 User Manual**
+  - Updated all keywords, commands, and functions to match official documentation
+  - Added comprehensive hardware commands (I2C2, SPI2, COM1, COM2, etc.)
+  - Added graphics commands (FRAMEBUFFER, LAYER, RBOX, POLYGON, etc.)
+  - Added system commands (WATCHDOG, BACKLIGHT, USB, PS2, etc.)
+  - Enhanced built-in functions list (JSON$, EPOCH, LGETBYTE, LGETSTR$, etc.)
+  - Updated syntax highlighting for all PicoMite-specific features
+  - Improved autocomplete suggestions with accurate parameters
+  - Updated hover documentation with examples from the manual
+
 ## [1.0.0] - 2026-02-17
 
 ### Added
