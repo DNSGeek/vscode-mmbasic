@@ -10,7 +10,7 @@
 ## Step 1: Install Dependencies
 
 ```bash
-cd mmbasic-vscode
+cd vscode-mmbasic
 npm install
 ```
 
@@ -32,7 +32,7 @@ This compiles the TypeScript source code in `src/` to JavaScript in `out/`.
 
 ### Option A: Development Mode (Recommended for testing)
 
-1. Open the `mmbasic-vscode` folder in VSCode
+1. Open the `vscode-mmbasic` folder in VSCode
 2. Press `F5` (or Run → Start Debugging)
 3. A new "Extension Development Host" window opens
 4. Open or create a `.bas` file
@@ -45,7 +45,7 @@ This compiles the TypeScript source code in `src/` to JavaScript in `out/`.
    npm install -g @vscode/vsce
    vsce package
    ```
-   This creates `mmbasic-vscode-1.0.0.vsix`
+   This creates `vscode-mmbasic-1.0.0.vsix`
 
 2. **Install in VSCode:**
    - Open VSCode

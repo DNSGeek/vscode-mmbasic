@@ -2,14 +2,34 @@ import * as vscode from 'vscode';
 import { SerialPortManager } from './serialPortManager';
 import { MMBasicCompletionProvider } from './completionProvider';
 import { MMBasicHoverProvider } from './hoverProvider';
+import { FileBrowserProvider, MMBasicFile } from './fileBrowserProvider';
+import { MMBasicDebugger, DebugVariablesProvider } from './debugger';
 
 let serialManager: SerialPortManager;
+let fileBrowser: FileBrowserProvider;
+let debugger: MMBasicDebugger;
+let debugVariables: DebugVariablesProvider;
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('MMBasic extension is now active');
 
     // Initialize serial port manager
     serialManager = new SerialPortManager();
+
+    // Initialize file browser
+    fileBrowser = new FileBrowserProvider(serialManager);
+    const fileBrowserView = vscode.window.createTreeView('mmbasic.fileBrowser', {
+        treeDataProvider: fileBrowser
+    });
+    context.subscriptions.push(fileBrowserView);
+
+    // Initialize debugger
+    debugger = new MMBasicDebugger(serialManager);
+    debugVariables = new DebugVariablesProvider(debugger);
+    const debugVariablesView = vscode.window.createTreeView('mmbasic.debugVariables', {
+        treeDataProvider: debugVariables
+    });
+    context.subscriptions.push(debugVariablesView);
 
     // Register commands
     const commands = [
@@ -70,6 +90,119 @@ export function activate(context: vscode.ExtensionContext) {
         
         vscode.commands.registerCommand('mmbasic.clearTerminal', () => {
             serialManager.clearTerminal();
+        }),
+
+        // File Browser Commands
+        vscode.commands.registerCommand('mmbasic.refreshFiles', () => {
+            fileBrowser.refresh();
+        }),
+
+        vscode.commands.registerCommand('mmbasic.uploadFile', async () => {
+            const fileUri = await vscode.window.showOpenDialog({
+                canSelectFiles: true,
+                canSelectFolders: false,
+                canSelectMany: false,
+                filters: { 'MMBasic Files': ['bas', 'mmb'] }
+            });
+
+            if (fileUri && fileUri[0]) {
+                const remoteName = await vscode.window.showInputBox({
+                    prompt: 'Enter remote filename',
+                    value: fileUri[0].fsPath.split(/[\\/]/).pop()
+                });
+
+                if (remoteName) {
+                    const success = await fileBrowser.uploadFile(fileUri[0].fsPath, remoteName);
+                    if (success) {
+                        vscode.window.showInformationMessage(`File uploaded: ${remoteName}`);
+                    }
+                }
+            }
+        }),
+
+        vscode.commands.registerCommand('mmbasic.downloadFile', async (file: MMBasicFile) => {
+            if (file && !file.isDirectory) {
+                const content = await fileBrowser.downloadFile(file.label);
+                if (content) {
+                    const doc = await vscode.workspace.openTextDocument({
+                        content: content,
+                        language: 'mmbasic'
+                    });
+                    await vscode.window.showTextDocument(doc);
+                }
+            }
+        }),
+
+        vscode.commands.registerCommand('mmbasic.deleteFile', async (file: MMBasicFile) => {
+            if (file && !file.isDirectory) {
+                const confirm = await vscode.window.showWarningMessage(
+                    `Delete ${file.label}?`,
+                    'Delete', 'Cancel'
+                );
+
+                if (confirm === 'Delete') {
+                    const success = await fileBrowser.deleteFile(file.label);
+                    if (success) {
+                        vscode.window.showInformationMessage(`Deleted: ${file.label}`);
+                    }
+                }
+            }
+        }),
+
+        vscode.commands.registerCommand('mmbasic.openRemoteFile', async (filename: string) => {
+            const content = await fileBrowser.downloadFile(filename);
+            if (content) {
+                const doc = await vscode.workspace.openTextDocument({
+                    content: content,
+                    language: 'mmbasic'
+                });
+                await vscode.window.showTextDocument(doc);
+            }
+        }),
+
+        // Debugger Commands
+        vscode.commands.registerCommand('mmbasic.startDebugging', async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (editor && editor.document.languageId === 'mmbasic') {
+                await debugger.startDebugging(editor.document);
+            } else {
+                vscode.window.showErrorMessage('No MMBasic file open');
+            }
+        }),
+
+        vscode.commands.registerCommand('mmbasic.stopDebugging', async () => {
+            await debugger.stopDebugging();
+        }),
+
+        vscode.commands.registerCommand('mmbasic.debugStepOver', async () => {
+            await debugger.stepOver();
+            debugVariables.refresh();
+        }),
+
+        vscode.commands.registerCommand('mmbasic.debugContinue', async () => {
+            await debugger.continue();
+        }),
+
+        vscode.commands.registerCommand('mmbasic.inspectVariable', async () => {
+            const variable = await vscode.window.showInputBox({
+                prompt: 'Enter variable name to inspect'
+            });
+
+            if (variable) {
+                await debugger.inspectVariable(variable);
+                debugVariables.refresh();
+            }
+        }),
+
+        vscode.commands.registerCommand('mmbasic.evaluateExpression', async () => {
+            const expression = await vscode.window.showInputBox({
+                prompt: 'Enter expression to evaluate'
+            });
+
+            if (expression) {
+                const result = await debugger.evaluateExpression(expression);
+                vscode.window.showInformationMessage(`Result: ${result}`);
+            }
         })
     ];
 

@@ -7,6 +7,7 @@ export class SerialPortManager {
     private outputChannel: vscode.OutputChannel;
     private parser: ReadlineParser | null = null;
     private connectionCallbacks: ((connected: boolean) => void)[] = [];
+    private dataListeners: ((data: string) => void)[] = [];
 
     constructor() {
         this.outputChannel = vscode.window.createOutputChannel('MMBasic Serial');
@@ -67,6 +68,8 @@ export class SerialPortManager {
             
             this.parser.on('data', (data: string) => {
                 this.outputChannel.appendLine(data);
+                // Notify all data listeners
+                this.dataListeners.forEach(listener => listener(data));
             });
 
             this.port.on('open', () => {
@@ -202,6 +205,17 @@ export class SerialPortManager {
 
     onConnectionChange(callback: (connected: boolean) => void): void {
         this.connectionCallbacks.push(callback);
+    }
+
+    addDataListener(listener: (data: string) => void): void {
+        this.dataListeners.push(listener);
+    }
+
+    removeDataListener(listener: (data: string) => void): void {
+        const index = this.dataListeners.indexOf(listener);
+        if (index > -1) {
+            this.dataListeners.splice(index, 1);
+        }
     }
 
     private notifyConnectionChange(connected: boolean): void {

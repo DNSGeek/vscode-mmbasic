@@ -19,6 +19,21 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 - Hover documentation with syntax examples
 - Context-aware suggestions
 
+### 🗂️ Remote File Browser (New in v1.2.0)
+- Browse files directly on your PicoMite device
+- Upload/download files between computer and device
+- Delete files remotely
+- View A: (flash) and B: (SD card) drives
+- Tree view in MMBasic sidebar
+
+### 🐛 Basic Debugger (New in v1.2.0)
+- Start debugging with F5
+- Step through code with F10
+- Inspect variable values during execution
+- Evaluate expressions on the fly
+- Debug output channel
+- Variable inspection view
+
 ### 🔌 Serial Port Communication
 - Connect directly to MMBasic devices via serial port
 - Send programs from VSCode to your device
@@ -35,7 +50,7 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 
 2. **Install dependencies**
    ```bash
-   cd mmbasic-vscode
+   cd vscode-mmbasic
    npm install
    ```
 
@@ -90,6 +105,7 @@ Example settings.json:
 
 All commands are available via Command Palette (`Ctrl+Shift+P`):
 
+### Serial Connection
 | Command | Keyboard Shortcut | Description |
 |---------|------------------|-------------|
 | `MMBasic: Connect to Device` | - | Connect to serial port |
@@ -100,6 +116,24 @@ All commands are available via Command Palette (`Ctrl+Shift+P`):
 | `MMBasic: Stop Program` | - | Stop running program (Ctrl+C) |
 | `MMBasic: List Files on Device` | - | Show files stored on device |
 | `MMBasic: Clear Terminal` | - | Clear output window |
+
+### File Browser (v1.2.0)
+| Command | Description |
+|---------|-------------|
+| `MMBasic: Refresh Files` | Reload file list from device |
+| `MMBasic: Upload File to Device` | Upload local file |
+| `MMBasic: Download File` | Download file from device |
+| `MMBasic: Delete File` | Delete file from device |
+
+### Debugger (v1.2.0)
+| Command | Keyboard Shortcut | Description |
+|---------|------------------|-------------|
+| `MMBasic: Start Debugging` | `F5` | Start debugging current file |
+| `MMBasic: Stop Debugging` | `Shift+F5` | Stop debugging |
+| `MMBasic: Step Over` | `F10` | Execute next line |
+| `MMBasic: Continue` | `F5` (in debug) | Continue execution |
+| `MMBasic: Inspect Variable` | - | View variable value |
+| `MMBasic: Evaluate Expression` | - | Evaluate expression |
 
 ### Status Bar
 
@@ -231,7 +265,7 @@ npm run compile
 ### Project Structure
 
 ```
-mmbasic-vscode/
+vscode-mmbasic/
 ├── src/
 │   ├── extension.ts           # Main extension entry point
 │   └── serialPortManager.ts   # Serial port handling
@@ -280,7 +314,7 @@ Contributions welcome! To add features:
 
 ## License
 
-MIT License
+GPL v2 License
 
 ## Credits
 

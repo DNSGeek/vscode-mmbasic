@@ -2,6 +2,56 @@
 
 All notable changes to the MMBasic VSCode extension.
 
+## [1.2.0] - 2026-02-28
+
+### Added
+- **🗂️ Remote File Browser**
+  - Browse files on connected PicoMite device
+  - View A: (internal flash) and B: (SD card) drives
+  - See file sizes and directory structure
+  - Tree view in MMBasic sidebar
+  
+- **⬆️⬇️ File Transfer**
+  - Upload local .bas/.mmb files to device
+  - Download files from device to VSCode
+  - Delete files from device
+  - Refresh file list on demand
+  
+- **🐛 Basic Debugger**
+  - Start/stop debugging with F5/Shift+F5
+  - Step through code with F10
+  - Inspect variable values during execution
+  - Evaluate expressions on the fly
+  - Debug output channel
+  - Debug Variables view
+  
+- **📊 New Views**
+  - MMBasic activity bar icon
+  - Remote Files tree view
+  - Debug Variables tree view
+  
+- **⌨️ New Commands**
+  - Upload/Download/Delete files
+  - Start/Stop debugging
+  - Step over execution
+  - Inspect variables
+  - Evaluate expressions
+  
+- **🎨 UI Enhancements**
+  - Context menus for file operations
+  - Icons for all file browser actions
+  - Integrated toolbar buttons
+  
+### Documentation
+- Added DEBUGGER_GUIDE.md with complete usage instructions
+- Examples for debugging and file management
+- Troubleshooting tips
+
+### Known Limitations
+- Debugger is basic (no true breakpoints due to MMBasic limitations)
+- File browser requires manual refresh
+- Step execution timing may vary
+
 ## [1.1.0] - 2026-02-27
 
 ### Updated

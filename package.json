@@ -4,9 +4,9 @@
   "description": "MMBasic language support with serial port communication",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DNSGeek/vscode-mmbasic.git"
+    "url": "https://github.com/DNSGeek/vscode-mmbasic"
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "DNSGeek",
   "engines": {
     "vscode": "^1.75.0"
@@ -17,6 +17,27 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mmbasic-explorer",
+          "title": "MMBasic",
+          "icon": "$(circuit-board)"
+        }
+      ]
+    },
+    "views": {
+      "mmbasic-explorer": [
+        {
+          "id": "mmbasic.fileBrowser",
+          "name": "Remote Files"
+        },
+        {
+          "id": "mmbasic.debugVariables",
+          "name": "Debug Variables"
+        }
+      ]
+    },
     "languages": [
       {
         "id": "mmbasic",
@@ -70,8 +91,82 @@
       {
         "command": "mmbasic.clearTerminal",
         "title": "MMBasic: Clear Terminal"
+      },
+      {
+        "command": "mmbasic.refreshFiles",
+        "title": "MMBasic: Refresh Files",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mmbasic.uploadFile",
+        "title": "MMBasic: Upload File to Device",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "mmbasic.downloadFile",
+        "title": "MMBasic: Download File",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "mmbasic.deleteFile",
+        "title": "MMBasic: Delete File",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "mmbasic.startDebugging",
+        "title": "MMBasic: Start Debugging",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "mmbasic.stopDebugging",
+        "title": "MMBasic: Stop Debugging",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "mmbasic.debugStepOver",
+        "title": "MMBasic: Step Over",
+        "icon": "$(debug-step-over)"
+      },
+      {
+        "command": "mmbasic.debugContinue",
+        "title": "MMBasic: Continue",
+        "icon": "$(debug-continue)"
+      },
+      {
+        "command": "mmbasic.inspectVariable",
+        "title": "MMBasic: Inspect Variable"
+      },
+      {
+        "command": "mmbasic.evaluateExpression",
+        "title": "MMBasic: Evaluate Expression"
       }
     ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "mmbasic.refreshFiles",
+          "when": "view == mmbasic.fileBrowser",
+          "group": "navigation"
+        },
+        {
+          "command": "mmbasic.uploadFile",
+          "when": "view == mmbasic.fileBrowser",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "mmbasic.downloadFile",
+          "when": "view == mmbasic.fileBrowser && viewItem == file",
+          "group": "inline"
+        },
+        {
+          "command": "mmbasic.deleteFile",
+          "when": "view == mmbasic.fileBrowser && viewItem == file",
+          "group": "inline"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "mmbasic.sendFile",
@@ -90,6 +185,26 @@
         "key": "ctrl+enter",
         "mac": "cmd+enter",
         "when": "editorTextFocus && editorLangId == mmbasic"
+      },
+      {
+        "command": "mmbasic.startDebugging",
+        "key": "f5",
+        "when": "editorLangId == mmbasic"
+      },
+      {
+        "command": "mmbasic.stopDebugging",
+        "key": "shift+f5",
+        "when": "editorLangId == mmbasic"
+      },
+      {
+        "command": "mmbasic.debugStepOver",
+        "key": "f10",
+        "when": "editorLangId == mmbasic"
+      },
+      {
+        "command": "mmbasic.debugContinue",
+        "key": "f5",
+        "when": "inDebugMode && editorLangId == mmbasic"
       }
     ],
     "configuration": {
