@@ -15,9 +15,6 @@
     "Programming Languages",
     "Other"
   ],
-  "activationEvents": [
-    "onLanguage:mmbasic"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "languages": [
