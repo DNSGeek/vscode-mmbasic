@@ -180,10 +180,10 @@ export class DebugVariablesProvider implements vscode.TreeDataProvider<DebugVari
     readonly onDidChangeTreeData: vscode.Event<DebugVariable | undefined | null | void> = 
         this._onDidChangeTreeData.event;
 
-    private debugger: MMBasicDebugger;
+    private mmDebugger: MMBasicDebugger;
 
-    constructor(debugger: MMBasicDebugger) {
-        this.debugger = debugger;
+    constructor(mmDebugger: MMBasicDebugger) {
+        this.mmDebugger = mmDebugger;
     }
 
     refresh(): void {
@@ -199,7 +199,7 @@ export class DebugVariablesProvider implements vscode.TreeDataProvider<DebugVari
             return Promise.resolve([]);
         }
 
-        const variables = this.debugger.getVariables();
+        const variables = this.mmDebugger.getVariables();
         const items: DebugVariable[] = [];
 
         variables.forEach((value, name) => {

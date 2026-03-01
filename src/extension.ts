@@ -7,7 +7,7 @@ import { MMBasicDebugger, DebugVariablesProvider } from './debugger';
 
 let serialManager: SerialPortManager;
 let fileBrowser: FileBrowserProvider;
-let debugger: MMBasicDebugger;
+let mmDebugger: MMBasicDebugger;
 let debugVariables: DebugVariablesProvider;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -24,8 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(fileBrowserView);
 
     // Initialize debugger
-    debugger = new MMBasicDebugger(serialManager);
-    debugVariables = new DebugVariablesProvider(debugger);
+    mmDebugger = new MMBasicDebugger(serialManager);
+    debugVariables = new DebugVariablesProvider(mmDebugger);
     const debugVariablesView = vscode.window.createTreeView('mmbasic.debugVariables', {
         treeDataProvider: debugVariables
     });
@@ -164,23 +164,23 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('mmbasic.startDebugging', async () => {
             const editor = vscode.window.activeTextEditor;
             if (editor && editor.document.languageId === 'mmbasic') {
-                await debugger.startDebugging(editor.document);
+                await mmDebugger.startDebugging(editor.document);
             } else {
                 vscode.window.showErrorMessage('No MMBasic file open');
             }
         }),
 
         vscode.commands.registerCommand('mmbasic.stopDebugging', async () => {
-            await debugger.stopDebugging();
+            await mmDebugger.stopDebugging();
         }),
 
         vscode.commands.registerCommand('mmbasic.debugStepOver', async () => {
-            await debugger.stepOver();
+            await mmDebugger.stepOver();
             debugVariables.refresh();
         }),
 
         vscode.commands.registerCommand('mmbasic.debugContinue', async () => {
-            await debugger.continue();
+            await mmDebugger.continue();
         }),
 
         vscode.commands.registerCommand('mmbasic.inspectVariable', async () => {
@@ -189,7 +189,7 @@ export function activate(context: vscode.ExtensionContext) {
             });
 
             if (variable) {
-                await debugger.inspectVariable(variable);
+                await mmDebugger.inspectVariable(variable);
                 debugVariables.refresh();
             }
         }),
@@ -200,7 +200,7 @@ export function activate(context: vscode.ExtensionContext) {
             });
 
             if (expression) {
-                const result = await debugger.evaluateExpression(expression);
+                const result = await mmDebugger.evaluateExpression(expression);
                 vscode.window.showInformationMessage(`Result: ${result}`);
             }
         })
