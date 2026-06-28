@@ -142,7 +142,8 @@ export class SerialPortManager {
         this.outputChannel.appendLine('--- Sending program ---');
 
         // First, clear the current program with NEW
-        this.port!.write('NEW' + lineEnding);
+        // PicoMite V6 requires AUTOSAVE for serial program upload.
+        this.port!.write('AUTOSAVE' + lineEnding);
         await this.delay(100);
 
         // Send each line
@@ -153,6 +154,10 @@ export class SerialPortManager {
                 await this.delay(50); // Small delay between lines
             }
         }
+
+        // End AUTOSAVE mode with Ctrl-Z.
+        this.port!.write('\x1A');
+        await this.delay(500);
 
         this.outputChannel.appendLine('--- Program sent ---');
         vscode.window.showInformationMessage('Program uploaded successfully');
