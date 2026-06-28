@@ -1,244 +1,253 @@
-import * as vscode from 'vscode';
-import { SerialPort } from 'serialport';
-import { ReadlineParser } from '@serialport/parser-readline';
+import * as vscode from "vscode";
+import { SerialPort } from "serialport";
+import { ReadlineParser } from "@serialport/parser-readline";
 
 export class SerialPortManager {
-    private port: SerialPort | null = null;
-    private outputChannel: vscode.OutputChannel;
-    private parser: ReadlineParser | null = null;
-    private connectionCallbacks: ((connected: boolean) => void)[] = [];
-    private dataListeners: ((data: string) => void)[] = [];
+  private port: SerialPort | null = null;
+  private outputChannel: vscode.OutputChannel;
+  private parser: ReadlineParser | null = null;
+  private connectionCallbacks: ((connected: boolean) => void)[] = [];
+  private dataListeners: ((data: string) => void)[] = [];
 
-    constructor() {
-        this.outputChannel = vscode.window.createOutputChannel('MMBasic Serial');
-        this.outputChannel.show();
+  constructor() {
+    this.outputChannel = vscode.window.createOutputChannel("MMBasic Serial");
+    this.outputChannel.show();
+  }
+
+  async connect(): Promise<void> {
+    if (this.port && this.port.isOpen) {
+      vscode.window.showWarningMessage("Already connected to a device");
+      return;
     }
 
-    async connect(): Promise<void> {
-        if (this.port && this.port.isOpen) {
-            vscode.window.showWarningMessage('Already connected to a device');
-            return;
-        }
+    try {
+      // Get list of available ports
+      const ports = await SerialPort.list();
 
-        try {
-            // Get list of available ports
-            const ports = await SerialPort.list();
-            
-            if (ports.length === 0) {
-                vscode.window.showErrorMessage('No serial ports found');
-                return;
-            }
+      if (ports.length === 0) {
+        vscode.window.showErrorMessage("No serial ports found");
+        return;
+      }
 
-            // Get configured port or ask user to select
-            const config = vscode.workspace.getConfiguration('mmbasic');
-            let selectedPort = config.get<string>('serialPort');
+      // Get configured port or ask user to select
+      const config = vscode.workspace.getConfiguration("mmbasic");
+      let selectedPort = config.get<string>("serialPort");
 
-            if (!selectedPort || !ports.find(p => p.path === selectedPort)) {
-                const portItems = ports.map(p => ({
-                    label: p.path,
-                    description: p.manufacturer || p.pnpId || '',
-                    detail: p.serialNumber || ''
-                }));
+      if (!selectedPort || !ports.find((p) => p.path === selectedPort)) {
+        const portItems = ports.map((p) => ({
+          label: p.path,
+          description: p.manufacturer || p.pnpId || "",
+          detail: p.serialNumber || "",
+        }));
 
-                const selection = await vscode.window.showQuickPick(portItems, {
-                    placeHolder: 'Select a serial port'
-                });
-
-                if (!selection) {
-                    return;
-                }
-
-                selectedPort = selection.label;
-            }
-
-            const baudRate = config.get<number>('baudRate', 38400);
-
-            this.outputChannel.appendLine(`Connecting to ${selectedPort} at ${baudRate} baud...`);
-
-            this.port = new SerialPort({
-                path: selectedPort,
-                baudRate: baudRate,
-                dataBits: 8,
-                parity: 'none',
-                stopBits: 1
-            });
-
-            // Set up line parser
-            this.parser = this.port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
-            
-            this.parser.on('data', (data: string) => {
-                this.outputChannel.appendLine(data);
-                // Notify all data listeners
-                this.dataListeners.forEach(listener => listener(data));
-            });
-
-            this.port.on('open', () => {
-                this.outputChannel.appendLine('✓ Connected successfully');
-                vscode.window.showInformationMessage(`Connected to ${selectedPort}`);
-                this.notifyConnectionChange(true);
-            });
-
-            this.port.on('error', (err) => {
-                this.outputChannel.appendLine(`Error: ${err.message}`);
-                vscode.window.showErrorMessage(`Serial port error: ${err.message}`);
-            });
-
-            this.port.on('close', () => {
-                this.outputChannel.appendLine('Connection closed');
-                this.notifyConnectionChange(false);
-            });
-
-        } catch (error: any) {
-            this.outputChannel.appendLine(`Connection failed: ${error.message}`);
-            vscode.window.showErrorMessage(`Failed to connect: ${error.message}`);
-        }
-    }
-
-    async disconnect(): Promise<void> {
-        if (!this.port || !this.port.isOpen) {
-            vscode.window.showWarningMessage('Not connected to any device');
-            return;
-        }
-
-        return new Promise((resolve) => {
-            this.port!.close((err) => {
-                if (err) {
-                    this.outputChannel.appendLine(`Error closing port: ${err.message}`);
-                    vscode.window.showErrorMessage(`Error disconnecting: ${err.message}`);
-                } else {
-                    this.outputChannel.appendLine('Disconnected');
-                    vscode.window.showInformationMessage('Disconnected from device');
-                }
-                this.port = null;
-                this.parser = null;
-                resolve();
-            });
+        const selection = await vscode.window.showQuickPick(portItems, {
+          placeHolder: "Select a serial port",
         });
-    }
 
-    async sendCommand(command: string): Promise<void> {
-        if (!this.isConnected()) {
-            vscode.window.showErrorMessage('Not connected to device');
-            return;
+        if (!selection) {
+          return;
         }
 
-        const config = vscode.workspace.getConfiguration('mmbasic');
-        const lineEnding = this.parseLineEnding(config.get<string>('lineEnding', '\\r\\n'));
+        selectedPort = selection.label;
+      }
 
-        this.outputChannel.appendLine(`> ${command}`);
-        this.port!.write(command + lineEnding);
+      const baudRate = config.get<number>("baudRate", 38400);
+
+      this.outputChannel.appendLine(
+        `Connecting to ${selectedPort} at ${baudRate} baud...`,
+      );
+
+      this.port = new SerialPort({
+        path: selectedPort,
+        baudRate: baudRate,
+        dataBits: 8,
+        parity: "none",
+        stopBits: 1,
+      });
+
+      // Set up line parser
+      this.parser = this.port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+
+      this.parser.on("data", (data: string) => {
+        this.outputChannel.appendLine(data);
+        // Notify all data listeners
+        this.dataListeners.forEach((listener) => listener(data));
+      });
+
+      this.port.on("open", () => {
+        this.outputChannel.appendLine("✓ Connected successfully");
+        vscode.window.showInformationMessage(`Connected to ${selectedPort}`);
+        this.notifyConnectionChange(true);
+      });
+
+      this.port.on("error", (err) => {
+        this.outputChannel.appendLine(`Error: ${err.message}`);
+        vscode.window.showErrorMessage(`Serial port error: ${err.message}`);
+      });
+
+      this.port.on("close", () => {
+        this.outputChannel.appendLine("Connection closed");
+        this.notifyConnectionChange(false);
+      });
+    } catch (error: any) {
+      this.outputChannel.appendLine(`Connection failed: ${error.message}`);
+      vscode.window.showErrorMessage(`Failed to connect: ${error.message}`);
+    }
+  }
+
+  async disconnect(): Promise<void> {
+    if (!this.port || !this.port.isOpen) {
+      vscode.window.showWarningMessage("Not connected to any device");
+      return;
     }
 
-    async sendProgram(program: string): Promise<void> {
-        if (!this.isConnected()) {
-            vscode.window.showErrorMessage('Not connected to device');
-            return;
+    return new Promise((resolve) => {
+      this.port!.close((err) => {
+        if (err) {
+          this.outputChannel.appendLine(`Error closing port: ${err.message}`);
+          vscode.window.showErrorMessage(`Error disconnecting: ${err.message}`);
+        } else {
+          this.outputChannel.appendLine("Disconnected");
+          vscode.window.showInformationMessage("Disconnected from device");
         }
+        this.port = null;
+        this.parser = null;
+        resolve();
+      });
+    });
+  }
 
-        const lines = program.split('\n');
-        const config = vscode.workspace.getConfiguration('mmbasic');
-        const lineEnding = this.parseLineEnding(config.get<string>('lineEnding', '\\r\\n'));
-
-        this.outputChannel.appendLine('--- Sending program ---');
-
-        // First, clear the current program with NEW
-        // PicoMite V6 requires AUTOSAVE for serial program upload.
-        this.port!.write('AUTOSAVE' + lineEnding);
-        await this.delay(100);
-
-        // Send each line
-        for (const line of lines) {
-            const trimmedLine = line.trim();
-            if (trimmedLine && !trimmedLine.startsWith("'")) {
-                this.port!.write(trimmedLine + lineEnding);
-                await this.delay(50); // Small delay between lines
-            }
-        }
-
-        // End AUTOSAVE mode with Ctrl-Z.
-        this.port!.write('\x1A');
-        await this.delay(500);
-
-        this.outputChannel.appendLine('--- Program sent ---');
-        vscode.window.showInformationMessage('Program uploaded successfully');
+  async sendCommand(command: string): Promise<void> {
+    if (!this.isConnected()) {
+      vscode.window.showErrorMessage("Not connected to device");
+      return;
     }
 
-    async runProgram(): Promise<void> {
-        if (!this.isConnected()) {
-            vscode.window.showErrorMessage('Not connected to device');
-            return;
-        }
+    const config = vscode.workspace.getConfiguration("mmbasic");
+    const lineEnding = this.parseLineEnding(
+      config.get<string>("lineEnding", "\\r\\n"),
+    );
 
-        const config = vscode.workspace.getConfiguration('mmbasic');
-        const lineEnding = this.parseLineEnding(config.get<string>('lineEnding', '\\r\\n'));
+    this.outputChannel.appendLine(`> ${command}`);
+    this.port!.write(command + lineEnding);
+  }
 
-        this.outputChannel.appendLine('--- Running program ---');
-        this.port!.write('RUN' + lineEnding);
+  async sendProgram(program: string): Promise<void> {
+    if (!this.isConnected()) {
+      vscode.window.showErrorMessage("Not connected to device");
+      return;
     }
 
-    async stopProgram(): Promise<void> {
-        if (!this.isConnected()) {
-            vscode.window.showErrorMessage('Not connected to device');
-            return;
-        }
+    const lines = program.split("\n");
+    const config = vscode.workspace.getConfiguration("mmbasic");
+    const lineEnding = this.parseLineEnding(
+      config.get<string>("lineEnding", "\\r\\n"),
+    );
 
-        // Send Ctrl+C to stop program
-        this.outputChannel.appendLine('Stopping program...');
-        this.port!.write(String.fromCharCode(3)); // Ctrl+C
+    this.outputChannel.appendLine("--- Sending program ---");
+
+    // First, clear the current program with NEW
+    // PicoMite V6 requires AUTOSAVE for serial program upload.
+    this.port!.write("AUTOSAVE" + lineEnding);
+    await this.delay(100);
+
+    // Send each line
+    for (const line of lines) {
+      const trimmedLine = line.trim();
+      if (trimmedLine && !trimmedLine.startsWith("'")) {
+        this.port!.write(trimmedLine + lineEnding);
+        await this.delay(50); // Small delay between lines
+      }
     }
 
-    async listFiles(): Promise<void> {
-        if (!this.isConnected()) {
-            vscode.window.showErrorMessage('Not connected to device');
-            return;
-        }
+    // End AUTOSAVE mode with Ctrl-Z.
+    this.port!.write("\x1A");
+    await this.delay(500);
 
-        const config = vscode.workspace.getConfiguration('mmbasic');
-        const lineEnding = this.parseLineEnding(config.get<string>('lineEnding', '\\r\\n'));
+    this.outputChannel.appendLine("--- Program sent ---");
+    vscode.window.showInformationMessage("Program uploaded successfully");
+  }
 
-        this.outputChannel.appendLine('--- Files on device ---');
-        this.port!.write('FILES' + lineEnding);
+  async runProgram(): Promise<void> {
+    if (!this.isConnected()) {
+      vscode.window.showErrorMessage("Not connected to device");
+      return;
     }
 
-    clearTerminal(): void {
-        this.outputChannel.clear();
+    const config = vscode.workspace.getConfiguration("mmbasic");
+    const lineEnding = this.parseLineEnding(
+      config.get<string>("lineEnding", "\\r\\n"),
+    );
+
+    this.outputChannel.appendLine("--- Running program ---");
+    this.port!.write("RUN" + lineEnding);
+  }
+
+  async stopProgram(): Promise<void> {
+    if (!this.isConnected()) {
+      vscode.window.showErrorMessage("Not connected to device");
+      return;
     }
 
-    isConnected(): boolean {
-        return this.port !== null && this.port.isOpen;
+    // Send Ctrl+C to stop program
+    this.outputChannel.appendLine("Stopping program...");
+    this.port!.write(String.fromCharCode(3)); // Ctrl+C
+  }
+
+  async listFiles(): Promise<void> {
+    if (!this.isConnected()) {
+      vscode.window.showErrorMessage("Not connected to device");
+      return;
     }
 
-    onConnectionChange(callback: (connected: boolean) => void): void {
-        this.connectionCallbacks.push(callback);
-    }
+    const config = vscode.workspace.getConfiguration("mmbasic");
+    const lineEnding = this.parseLineEnding(
+      config.get<string>("lineEnding", "\\r\\n"),
+    );
 
-    addDataListener(listener: (data: string) => void): void {
-        this.dataListeners.push(listener);
-    }
+    this.outputChannel.appendLine("--- Files on device ---");
+    this.port!.write("FILES" + lineEnding);
+  }
 
-    removeDataListener(listener: (data: string) => void): void {
-        const index = this.dataListeners.indexOf(listener);
-        if (index > -1) {
-            this.dataListeners.splice(index, 1);
-        }
-    }
+  clearTerminal(): void {
+    this.outputChannel.clear();
+  }
 
-    private notifyConnectionChange(connected: boolean): void {
-        this.connectionCallbacks.forEach(cb => cb(connected));
-    }
+  isConnected(): boolean {
+    return this.port !== null && this.port.isOpen;
+  }
 
-    private parseLineEnding(ending: string): string {
-        return ending.replace('\\r', '\r').replace('\\n', '\n');
-    }
+  onConnectionChange(callback: (connected: boolean) => void): void {
+    this.connectionCallbacks.push(callback);
+  }
 
-    private delay(ms: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+  addDataListener(listener: (data: string) => void): void {
+    this.dataListeners.push(listener);
+  }
 
-    dispose(): void {
-        if (this.port && this.port.isOpen) {
-            this.port.close();
-        }
-        this.outputChannel.dispose();
+  removeDataListener(listener: (data: string) => void): void {
+    const index = this.dataListeners.indexOf(listener);
+    if (index > -1) {
+      this.dataListeners.splice(index, 1);
     }
+  }
+
+  private notifyConnectionChange(connected: boolean): void {
+    this.connectionCallbacks.forEach((cb) => cb(connected));
+  }
+
+  private parseLineEnding(ending: string): string {
+    return ending.replace("\\r", "\r").replace("\\n", "\n");
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  dispose(): void {
+    if (this.port && this.port.isOpen) {
+      this.port.close();
+    }
+    this.outputChannel.dispose();
+  }
 }

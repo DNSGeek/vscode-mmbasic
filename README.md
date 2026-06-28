@@ -7,6 +7,7 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 ## Features
 
 ### 🎨 Syntax Highlighting
+
 - Full syntax highlighting for MMBasic keywords, functions, and commands
 - Support for comments (`'` and `REM`)
 - Number formats: decimal, hexadecimal (&H), binary (&B), octal (&O)
@@ -14,12 +15,14 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 - Code folding for blocks
 
 ### 💡 IntelliSense & Autocomplete
+
 - Smart code completion for keywords, functions, and commands
 - Parameter hints with snippets
 - Hover documentation with syntax examples
 - Context-aware suggestions
 
 ### 🗂️ Remote File Browser (New in v1.2.0)
+
 - Browse files directly on your PicoMite device
 - Upload/download files between computer and device
 - Delete files remotely
@@ -27,6 +30,7 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 - Tree view in MMBasic sidebar
 
 ### 🐛 Basic Debugger (New in v1.2.0)
+
 - Start debugging with F5
 - Step through code with F10
 - Inspect variable values during execution
@@ -35,6 +39,7 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 - Variable inspection view
 
 ### 🔌 Serial Port Communication
+
 - Connect directly to MMBasic devices via serial port
 - Send programs from VSCode to your device
 - Execute code line-by-line or selections
@@ -49,12 +54,14 @@ Complete MMBasic language support for Visual Studio Code, including syntax highl
 1. **Clone or download this repository**
 
 2. **Install dependencies**
+
    ```bash
    cd vscode-mmbasic
    npm install
    ```
 
 3. **Compile the TypeScript code**
+
    ```bash
    npm run compile
    ```
@@ -92,6 +99,7 @@ Open VSCode settings and search for "MMBasic":
 - **Line Ending**: Line termination for serial communication
 
 Example settings.json:
+
 ```json
 {
   "mmbasic.serialPort": "/dev/ttyUSB0",
@@ -106,38 +114,42 @@ Example settings.json:
 All commands are available via Command Palette (`Ctrl+Shift+P`):
 
 ### Serial Connection
-| Command | Keyboard Shortcut | Description |
-|---------|------------------|-------------|
-| `MMBasic: Connect to Device` | - | Connect to serial port |
-| `MMBasic: Disconnect from Device` | - | Disconnect from device |
-| `MMBasic: Send Current File to Device` | `Ctrl+Shift+U` | Upload entire file |
-| `MMBasic: Send Selection to Device` | `Ctrl+Enter` | Send selected code or current line |
-| `MMBasic: Run Program on Device` | `Ctrl+Shift+R` | Execute the program |
-| `MMBasic: Stop Program` | - | Stop running program (Ctrl+C) |
-| `MMBasic: List Files on Device` | - | Show files stored on device |
-| `MMBasic: Clear Terminal` | - | Clear output window |
+
+| Command                                | Keyboard Shortcut | Description                        |
+| -------------------------------------- | ----------------- | ---------------------------------- |
+| `MMBasic: Connect to Device`           | -                 | Connect to serial port             |
+| `MMBasic: Disconnect from Device`      | -                 | Disconnect from device             |
+| `MMBasic: Send Current File to Device` | `Ctrl+Shift+U`    | Upload entire file                 |
+| `MMBasic: Send Selection to Device`    | `Ctrl+Enter`      | Send selected code or current line |
+| `MMBasic: Run Program on Device`       | `Ctrl+Shift+R`    | Execute the program                |
+| `MMBasic: Stop Program`                | -                 | Stop running program (Ctrl+C)      |
+| `MMBasic: List Files on Device`        | -                 | Show files stored on device        |
+| `MMBasic: Clear Terminal`              | -                 | Clear output window                |
 
 ### File Browser (v1.2.0)
-| Command | Description |
-|---------|-------------|
-| `MMBasic: Refresh Files` | Reload file list from device |
-| `MMBasic: Upload File to Device` | Upload local file |
-| `MMBasic: Download File` | Download file from device |
-| `MMBasic: Delete File` | Delete file from device |
+
+| Command                          | Description                  |
+| -------------------------------- | ---------------------------- |
+| `MMBasic: Refresh Files`         | Reload file list from device |
+| `MMBasic: Upload File to Device` | Upload local file            |
+| `MMBasic: Download File`         | Download file from device    |
+| `MMBasic: Delete File`           | Delete file from device      |
 
 ### Debugger (v1.2.0)
-| Command | Keyboard Shortcut | Description |
-|---------|------------------|-------------|
-| `MMBasic: Start Debugging` | `F5` | Start debugging current file |
-| `MMBasic: Stop Debugging` | `Shift+F5` | Stop debugging |
-| `MMBasic: Step Over` | `F10` | Execute next line |
-| `MMBasic: Continue` | `F5` (in debug) | Continue execution |
-| `MMBasic: Inspect Variable` | - | View variable value |
-| `MMBasic: Evaluate Expression` | - | Evaluate expression |
+
+| Command                        | Keyboard Shortcut | Description                  |
+| ------------------------------ | ----------------- | ---------------------------- |
+| `MMBasic: Start Debugging`     | `F5`              | Start debugging current file |
+| `MMBasic: Stop Debugging`      | `Shift+F5`        | Stop debugging               |
+| `MMBasic: Step Over`           | `F10`             | Execute next line            |
+| `MMBasic: Continue`            | `F5` (in debug)   | Continue execution           |
+| `MMBasic: Inspect Variable`    | -                 | View variable value          |
+| `MMBasic: Evaluate Expression` | -                 | Evaluate expression          |
 
 ### Status Bar
 
 The status bar shows connection status:
+
 - 🔌 **MMBasic: Disconnected** - Click to connect
 - ✓ **MMBasic: Connected** - Click to disconnect
 
@@ -170,6 +182,7 @@ The extension provides intelligent code completion as you type:
 ### Example 1: Upload and Run a Program
 
 1. Write your MMBasic code:
+
 ```basic
 ' Blink LED example
 SETPIN 13, DOUT
@@ -197,6 +210,7 @@ PRINT "Done!"
 ### Example 3: Testing Individual Lines
 
 Write some test code:
+
 ```basic
 PRINT "Hello from MMBasic!"
 x = 42
@@ -208,6 +222,7 @@ Place cursor on any line and press `Ctrl+Enter` to execute just that line.
 ## Serial Terminal Output
 
 All serial communication appears in the **MMBasic Serial** output panel:
+
 - Sent commands are prefixed with `>`
 - Device responses appear in real-time
 - Use `MMBasic: Clear Terminal` to clear the output
@@ -217,14 +232,17 @@ All serial communication appears in the **MMBasic Serial** output panel:
 ### "No serial ports found"
 
 **Windows:**
+
 - Install USB-to-Serial drivers for your device
 - Check Device Manager for COM port
 
 **macOS:**
+
 - Port appears as `/dev/tty.usbserial-*` or `/dev/tty.SLAB_USBtoUART`
 - May need to install CH340 or FTDI drivers
 
 **Linux:**
+
 - Add user to `dialout` group: `sudo usermod -a -G dialout $USER`
 - Log out and back in
 - Check `ls /dev/ttyUSB*` or `ls /dev/ttyACM*`
@@ -249,6 +267,7 @@ sudo usermod -a -G dialout $USER
 ### Extension Won't Compile
 
 Make sure you have the correct Node.js version:
+
 ```bash
 node --version  # Should be v16 or higher
 npm install
@@ -330,6 +349,7 @@ GPL v2 License
 ## Support
 
 For issues or questions:
+
 - Check the [troubleshooting section](#troubleshooting)
 - Open an issue on GitHub
 - Visit the MMBasic community forums

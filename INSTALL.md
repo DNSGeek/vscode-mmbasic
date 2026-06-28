@@ -15,6 +15,7 @@ npm install
 ```
 
 This will install:
+
 - TypeScript compiler
 - VSCode extension API
 - SerialPort library
@@ -41,10 +42,12 @@ This compiles the TypeScript source code in `src/` to JavaScript in `out/`.
 ### Option B: Install as VSIX Package
 
 1. **Package the extension:**
+
    ```bash
    npm install -g @vscode/vsce
    vsce package
    ```
+
    This creates `vscode-mmbasic-1.0.0.vsix`
 
 2. **Install in VSCode:**
@@ -60,18 +63,21 @@ This compiles the TypeScript source code in `src/` to JavaScript in `out/`.
 ### Find Your Serial Port
 
 **Windows:**
+
 ```
 Device Manager → Ports (COM & LPT)
 Look for: COM3, COM4, etc.
 ```
 
 **macOS:**
+
 ```bash
 ls /dev/tty.*
 # Look for: /dev/tty.usbserial-* or /dev/tty.SLAB_USBtoUART
 ```
 
 **Linux:**
+
 ```bash
 ls /dev/ttyUSB* /dev/ttyACM*
 # Look for: /dev/ttyUSB0, /dev/ttyACM0, etc.
@@ -85,6 +91,7 @@ ls /dev/ttyUSB* /dev/ttyACM*
 4. Set **Baud Rate** (default: 38400)
 
 Or edit `settings.json`:
+
 ```json
 {
   "mmbasic.serialPort": "/dev/ttyUSB0",
@@ -102,6 +109,7 @@ Or edit `settings.json`:
 5. Check the **MMBasic Serial** output panel
 
 You should see:
+
 ```
 Connecting to /dev/ttyUSB0 at 38400 baud...
 ✓ Connected successfully
@@ -131,6 +139,7 @@ sudo usermod -a -G dialout $USER
 ```
 
 Or temporary fix:
+
 ```bash
 sudo chmod 666 /dev/ttyUSB0
 ```
@@ -172,11 +181,13 @@ sudo dnf install make automake gcc gcc-c++ systemd-devel
 ### Udev Rules (Optional)
 
 Create `/etc/udev/rules.d/50-mmbasic.rules`:
+
 ```
 SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"
 ```
 
 Reload:
+
 ```bash
 sudo udevadm control --reload-rules
 sudo udevadm trigger
@@ -217,6 +228,7 @@ ls -l /dev/tty.*
 3. ✅ Code uploads successfully
 
 Now you can:
+
 - Write MMBasic programs in VSCode
 - Upload and run them instantly
 - Use interactive line-by-line execution
