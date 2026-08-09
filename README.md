@@ -76,35 +76,35 @@ Then press `F5` in VS Code to launch an Extension Development Host.
 
 ## Configuration
 
-| Setting | Default | Description |
-| --- | --- | --- |
-| `mmbasic.serialPort` | unset | Device path, for example `/dev/tty.usbmodem1101` or `COM3`. Prompts for a selection when unset or not present. |
-| `mmbasic.baudRate` | `38400` | Console baud rate. Must match `OPTION BAUDRATE` on the device. |
-| `mmbasic.lineEnding` | `\r\n` | Line ending sent with each command. |
-| `mmbasic.autoConnect` | `false` | Connect on activation. |
+| Setting               | Default | Description                                                                                                    |
+| --------------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `mmbasic.serialPort`  | unset   | Device path, for example `/dev/tty.usbmodem1101` or `COM3`. Prompts for a selection when unset or not present. |
+| `mmbasic.baudRate`    | `38400` | Console baud rate. Must match `OPTION BAUDRATE` on the device.                                                 |
+| `mmbasic.lineEnding`  | `\r\n`  | Line ending sent with each command.                                                                            |
+| `mmbasic.autoConnect` | `false` | Connect on activation.                                                                                         |
 
 ## Commands
 
-| Command | ID |
-| --- | --- |
-| Connect Serial | `mmbasic.connectSerial` |
-| Disconnect Serial | `mmbasic.disconnectSerial` |
-| Send File | `mmbasic.sendFile` |
-| Send Selection | `mmbasic.sendSelection` |
-| Run Program | `mmbasic.runProgram` |
-| Stop Program | `mmbasic.stopProgram` |
-| List Files | `mmbasic.listFiles` |
-| Clear Terminal | `mmbasic.clearTerminal` |
-| Refresh Files | `mmbasic.refreshFiles` |
-| Upload File | `mmbasic.uploadFile` |
-| Download File | `mmbasic.downloadFile` |
-| Delete File | `mmbasic.deleteFile` |
-| Open Remote File | `mmbasic.openRemoteFile` |
-| Start Debugging | `mmbasic.startDebugging` |
-| Stop Debugging | `mmbasic.stopDebugging` |
-| Step Over | `mmbasic.debugStepOver` |
-| Continue | `mmbasic.debugContinue` |
-| Inspect Variable | `mmbasic.inspectVariable` |
+| Command             | ID                           |
+| ------------------- | ---------------------------- |
+| Connect Serial      | `mmbasic.connectSerial`      |
+| Disconnect Serial   | `mmbasic.disconnectSerial`   |
+| Send File           | `mmbasic.sendFile`           |
+| Send Selection      | `mmbasic.sendSelection`      |
+| Run Program         | `mmbasic.runProgram`         |
+| Stop Program        | `mmbasic.stopProgram`        |
+| List Files          | `mmbasic.listFiles`          |
+| Clear Terminal      | `mmbasic.clearTerminal`      |
+| Refresh Files       | `mmbasic.refreshFiles`       |
+| Upload File         | `mmbasic.uploadFile`         |
+| Download File       | `mmbasic.downloadFile`       |
+| Delete File         | `mmbasic.deleteFile`         |
+| Open Remote File    | `mmbasic.openRemoteFile`     |
+| Start Debugging     | `mmbasic.startDebugging`     |
+| Stop Debugging      | `mmbasic.stopDebugging`      |
+| Step Over           | `mmbasic.debugStepOver`      |
+| Continue            | `mmbasic.debugContinue`      |
+| Inspect Variable    | `mmbasic.inspectVariable`    |
 | Evaluate Expression | `mmbasic.evaluateExpression` |
 
 ## Project layout
