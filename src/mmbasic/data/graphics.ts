@@ -62,7 +62,8 @@ export const GRAPHICS_KEYWORDS: MMBasicKeywordList = [
     syntax: ["ARC x, y, r1, [r2], a1, a2 [, c]"],
     summary:
       "Draws an arc between two angles in degrees, measured clockwise from 12 o'clock.",
-    snippet: "ARC ${1:x}, ${2:y}, ${3:r1}, ${4:r2}, ${5:a1}, ${6:a2}, ${7:RGB(WHITE)}",
+    snippet:
+      "ARC ${1:x}, ${2:y}, ${3:r1}, ${4:r2}, ${5:a1}, ${6:a2}, ${7:RGB(WHITE)}",
   },
   {
     name: "TRIANGLE",
@@ -118,7 +119,8 @@ export const GRAPHICS_KEYWORDS: MMBasicKeywordList = [
       "Add R, U, D or L to the alignment string to rotate the text.",
     ],
     example: ['TEXT 10, 10, "Hello", "LT", 1, 2, RGB(WHITE)'].join("\n"),
-    snippet: 'TEXT ${1:x}, ${2:y}, "${3:text}", "${4|LT,CT,RT,LM,CM,RM,LB,CB,RB|}"',
+    snippet:
+      'TEXT ${1:x}, ${2:y}, "${3:text}", "${4|LT,CT,RT,LM,CM,RM,LB,CB,RB|}"',
   },
   {
     name: "FONT",
@@ -251,7 +253,9 @@ export const GRAPHICS_KEYWORDS: MMBasicKeywordList = [
     ],
     summary:
       "Copies rectangles of pixels around the screen or between memory buffers.",
-    notes: ["Mode bit 1 is mirror horizontally, bit 2 mirror vertically, bit 4 transparent."],
+    notes: [
+      "Mode bit 1 is mirror horizontally, bit 2 mirror vertically, bit 4 transparent.",
+    ],
     example: [
       "BLIT READ #1, 0, 0, 32, 32",
       "BLIT WRITE #1, 100, 100",
@@ -344,8 +348,7 @@ export const GRAPHICS_KEYWORDS: MMBasicKeywordList = [
       "GUI TEST LCDPANEL|TOUCH",
       "GUI RESET LCDPANEL",
     ],
-    summary:
-      "Touch calibration, cursor control and display test patterns.",
+    summary: "Touch calibration, cursor control and display test patterns.",
     snippet: "GUI ${1|BITMAP,CALIBRATE,CURSOR,CLICK,TEST,RESET|}",
   },
   {
@@ -363,9 +366,7 @@ export const GRAPHICS_KEYWORDS: MMBasicKeywordList = [
     ],
     summary:
       "Reads the touch panel: coordinates, press state and recognised gestures.",
-    example: [
-      "IF TOUCH(DOWN) THEN PRINT TOUCH(X), TOUCH(Y)",
-    ].join("\n"),
+    example: ["IF TOUCH(DOWN) THEN PRINT TOUCH(X), TOUCH(Y)"].join("\n"),
     snippet: "TOUCH(${1|X,Y,DOWN,UP,TAP,HOLD,SWIPE|})",
   },
   {

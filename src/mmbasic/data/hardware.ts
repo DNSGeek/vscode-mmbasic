@@ -39,7 +39,12 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
     name: "PIN",
     kind: "function",
     category: "I/O pins",
-    syntax: ["PIN( pin )", "PIN( pin ) = value", "PIN( BOOTSEL )", "PIN( TEMP )"],
+    syntax: [
+      "PIN( pin )",
+      "PIN( pin ) = value",
+      "PIN( BOOTSEL )",
+      "PIN( TEMP )",
+    ],
     summary:
       "Reads or writes a pin. PIN(TEMP) reads the internal temperature sensor, PIN(BOOTSEL) the BOOTSEL button.",
     example: [
@@ -141,11 +146,9 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
     syntax: ["PIN( pin )"],
     summary:
       "A pin configured with SETPIN pin, FIN is read with PIN() and returns the measured frequency in Hz.",
-    example: [
-      "SETPIN GP1, FIN",
-      "PAUSE 1000",
-      'PRINT PIN(GP1); " Hz"',
-    ].join("\n"),
+    example: ["SETPIN GP1, FIN", "PAUSE 1000", 'PRINT PIN(GP1); " Hz"'].join(
+      "\n",
+    ),
   },
 
   // ----------------------------------------------------------- timing / ints
@@ -313,10 +316,7 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
       "I2CLCD CLOSE",
     ],
     summary: "Drives a character LCD on an I2C backpack.",
-    example: [
-      "I2CLCD INIT &H27",
-      'I2CLCD 1, 1, "Hello"',
-    ].join("\n"),
+    example: ["I2CLCD INIT &H27", 'I2CLCD 1, 1, "Hello"'].join("\n"),
     snippet: "I2CLCD ${1|INIT,CLEAR,BACKLIGHT,CURSOR,CLOSE|}",
   },
 
@@ -385,11 +385,7 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
     syntax: ["TEMPR START pin [, precision] [, timeout]"],
     summary:
       "Starts a DS18B20 conversion without blocking. Read the result later with TEMPR().",
-    example: [
-      "TEMPR START GP6",
-      "PAUSE 800",
-      "PRINT TEMPR(GP6)",
-    ].join("\n"),
+    example: ["TEMPR START GP6", "PAUSE 800", "PRINT TEMPR(GP6)"].join("\n"),
     snippet: "TEMPR START ${1:GP0}",
   },
   {
@@ -440,7 +436,8 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
     ],
     summary:
       "Scans a matrix keypad in the background and calls an interrupt when a key is pressed.",
-    snippet: "KEYPAD ${1:key}, ${2:MySub}, ${3:r1}, ${4:r2}, ${5:r3}, ${6:r4}, ${7:c1}, ${8:c2}, ${9:c3}",
+    snippet:
+      "KEYPAD ${1:key}, ${2:MySub}, ${3:r1}, ${4:r2}, ${5:r3}, ${6:r4}, ${7:c1}, ${8:c2}, ${9:c3}",
   },
   {
     name: "RTC",
@@ -604,7 +601,8 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
       "TMC22xx CLOSE",
     ],
     summary: "Configures TMC22xx series stepper drivers over their UART.",
-    snippet: "TMC22xx ${1:pin}, ${2:chip}, ${3:address}, ${4:current}, ${5:hold}, ${6:microsteps}",
+    snippet:
+      "TMC22xx ${1:pin}, ${2:chip}, ${3:address}, ${4:current}, ${5:hold}, ${6:microsteps}",
   },
 
   // --------------------------------------------------------------- PIO
@@ -633,7 +631,8 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
       "Use PIO ASSEMBLE to build a program line by line, then PIO PROGRAM to load it.",
       "The PIO() function form builds the control words and reads the FIFOs.",
     ],
-    snippet: "PIO ${1|ASSEMBLE,PROGRAM,INIT MACHINE,CONFIGURE,START,STOP,WRITE,READ,CLEAR|}",
+    snippet:
+      "PIO ${1|ASSEMBLE,PROGRAM,INIT MACHINE,CONFIGURE,START,STOP,WRITE,READ,CLEAR|}",
   },
   {
     name: "PIO(",
@@ -650,6 +649,7 @@ export const HARDWARE_KEYWORDS: MMBasicKeywordList = [
     ],
     summary:
       "Builds PIO configuration words and reads state machine status and FIFOs.",
-    snippet: "PIO(${1|PINCTRL,EXECCTRL,SHIFTCTRL,READFIFO,FSTAT,FLEVEL|} ${2:args})",
+    snippet:
+      "PIO(${1|PINCTRL,EXECCTRL,SHIFTCTRL,READFIFO,FSTAT,FLEVEL|} ${2:args})",
   },
 ];

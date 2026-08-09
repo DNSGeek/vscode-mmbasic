@@ -33,7 +33,8 @@ export const SOUND_KEYWORDS: MMBasicKeywordList = [
       '  PRINT "done"',
       "END SUB",
     ].join("\n"),
-    snippet: "PLAY ${1|TONE,WAV,MP3,FLAC,MODFILE,MIDIFILE,SOUND,VOLUME,PAUSE,RESUME,STOP|}",
+    snippet:
+      "PLAY ${1|TONE,WAV,MP3,FLAC,MODFILE,MIDIFILE,SOUND,VOLUME,PAUSE,RESUME,STOP|}",
   },
   {
     name: "PLAY TONE",
@@ -53,7 +54,8 @@ export const SOUND_KEYWORDS: MMBasicKeywordList = [
     summary:
       "Plays one of the built in waveform generators. Type is S (sine), Q (square), T (triangle), W (sawtooth), N (noise) or O (off).",
     example: ["PLAY SOUND 1, B, S, 500, 20"].join("\n"),
-    snippet: "PLAY SOUND ${1:1}, ${2|L,R,B|}, ${3|S,Q,T,W,N,O|}, ${4:500}, ${5:20}",
+    snippet:
+      "PLAY SOUND ${1:1}, ${2|L,R,B|}, ${3|S,Q,T,W,N,O|}, ${4:500}, ${5:20}",
   },
   {
     name: "PLAY STOP",

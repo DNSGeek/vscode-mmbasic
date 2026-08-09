@@ -47,7 +47,8 @@ export const NETWORK_KEYWORDS: MMBasicKeywordList = [
       'PRINT DATE$; " "; TIME$',
     ].join("\n"),
     variants: ["WebMite"],
-    snippet: "WEB ${1|CONNECT,SCAN,NTP,PING,OPEN TCP CLIENT,MQTT CONNECT,TRANSMIT PAGE,CLOSE TCP CLIENT|}",
+    snippet:
+      "WEB ${1|CONNECT,SCAN,NTP,PING,OPEN TCP CLIENT,MQTT CONNECT,TRANSMIT PAGE,CLOSE TCP CLIENT|}",
   },
   {
     name: "WEB CONNECT",
@@ -149,6 +150,7 @@ export const NETWORK_KEYWORDS: MMBasicKeywordList = [
       "Items include LATITUDE, LONGITUDE, ALTITUDE, SPEED, TRACK, TIME, DATE, VALID, FIX and SATELLITES.",
     ],
     example: ['OPEN "COM2:9600" AS GPS', "PRINT GPS(LATITUDE)"].join("\n"),
-    snippet: "GPS(${1|LATITUDE,LONGITUDE,ALTITUDE,SPEED,TRACK,TIME,DATE,VALID,FIX|})",
+    snippet:
+      "GPS(${1|LATITUDE,LONGITUDE,ALTITUDE,SPEED,TRACK,TIME,DATE,VALID,FIX|})",
   },
 ];

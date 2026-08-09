@@ -6,7 +6,7 @@ export const SYSTEM_KEYWORDS: MMBasicKeywordList = [
     name: "TIME$",
     kind: "function",
     category: "Date and time",
-    syntax: ['TIME$', 'TIME$ = "HH:MM:SS"'],
+    syntax: ["TIME$", 'TIME$ = "HH:MM:SS"'],
     summary: "Current time as HH:MM:SS. Assign to it to set the clock.",
     example: ['TIME$ = "09:30:00"', "PRINT TIME$"].join("\n"),
   },
@@ -98,10 +98,7 @@ export const SYSTEM_KEYWORDS: MMBasicKeywordList = [
     ],
     summary:
       "Moves the program in memory into the library area, where its subs and functions stay available to every program.",
-    example: [
-      "' load your helper subs, then:",
-      "LIBRARY SAVE",
-    ].join("\n"),
+    example: ["' load your helper subs, then:", "LIBRARY SAVE"].join("\n"),
     snippet: "LIBRARY ${1|SAVE,DELETE,LIST|}",
   },
   {
@@ -190,8 +187,12 @@ export const SYSTEM_KEYWORDS: MMBasicKeywordList = [
     name: "OPTION SDCARD",
     kind: "option",
     category: "Options",
-    syntax: ["OPTION SDCARD CSpin [, CLKpin, MOSIpin, MISOpin]", "OPTION SDCARD DISABLE"],
-    summary: "Configures the SD card interface pins, giving access to drive B:.",
+    syntax: [
+      "OPTION SDCARD CSpin [, CLKpin, MOSIpin, MISOpin]",
+      "OPTION SDCARD DISABLE",
+    ],
+    summary:
+      "Configures the SD card interface pins, giving access to drive B:.",
     snippet: "OPTION SDCARD ${1:GP5}",
   },
   {
@@ -419,10 +420,11 @@ export const SYSTEM_KEYWORDS: MMBasicKeywordList = [
       "String: PLATFORM, DRIVE, PATH, CURRENT, SDCARD, KEYBOARD, LCDPANEL, IP ADDRESS, OPTION, PIN, MODIFIED, TOUCH, SOUND.",
     ],
     example: [
-      'PRINT MM.INFO$(PLATFORM)',
+      "PRINT MM.INFO$(PLATFORM)",
       "PRINT MM.INFO(FREE SPACE)",
       'IF MM.INFO(EXISTS FILE "data.txt") THEN PRINT "found"',
     ].join("\n"),
-    snippet: "MM.INFO(${1|FREE SPACE,DISK SIZE,HEAP,STACK,UPTIME,FLASH,BOOT COUNT|})",
+    snippet:
+      "MM.INFO(${1|FREE SPACE,DISK SIZE,HEAP,STACK,UPTIME,FLASH,BOOT COUNT|})",
   },
 ];

@@ -73,11 +73,7 @@ export const FILEIO_KEYWORDS: MMBasicKeywordList = [
     syntax: ["INKEY$"],
     summary:
       "Next character from the console keyboard buffer, or an empty string if none is waiting. Does not wait.",
-    example: [
-      "DO",
-      "  k$ = INKEY$",
-      'LOOP UNTIL k$ <> ""',
-    ].join("\n"),
+    example: ["DO", "  k$ = INKEY$", 'LOOP UNTIL k$ <> ""'].join("\n"),
   },
   {
     name: "KEYDOWN",
@@ -86,9 +82,7 @@ export const FILEIO_KEYWORDS: MMBasicKeywordList = [
     syntax: ["KEYDOWN( n )"],
     summary:
       "Reports keys currently held down on a USB or PS2 keyboard. KEYDOWN(0) gives the count.",
-    example: [
-      "IF KEYDOWN(0) > 0 THEN PRINT KEYDOWN(1)",
-    ].join("\n"),
+    example: ["IF KEYDOWN(0) > 0 THEN PRINT KEYDOWN(1)"].join("\n"),
     snippet: "KEYDOWN(${1:0})",
   },
   {
@@ -185,7 +179,8 @@ export const FILEIO_KEYWORDS: MMBasicKeywordList = [
     kind: "command",
     category: "Files",
     syntax: ["SEEK [#]fnbr, pos"],
-    summary: "Moves the read/write position within an open file. 1 is the first byte.",
+    summary:
+      "Moves the read/write position within an open file. 1 is the first byte.",
     snippet: "SEEK #${1:1}, ${2:pos}",
   },
   {
@@ -280,7 +275,7 @@ export const FILEIO_KEYWORDS: MMBasicKeywordList = [
     name: "DRIVE",
     kind: "command",
     category: "Files",
-    syntax: ['DRIVE drive$'],
+    syntax: ["DRIVE drive$"],
     summary:
       'Selects the current drive: "A:" internal flash, "B:" SD card, "C:" USB flash drive.',
     example: ['DRIVE "B:"'].join("\n"),
@@ -361,11 +356,7 @@ export const FILEIO_KEYWORDS: MMBasicKeywordList = [
     name: "XMODEM",
     kind: "command",
     category: "Files",
-    syntax: [
-      "XMODEM SEND [file$]",
-      "XMODEM RECEIVE [file$]",
-      "XMODEM CRUNCH",
-    ],
+    syntax: ["XMODEM SEND [file$]", "XMODEM RECEIVE [file$]", "XMODEM CRUNCH"],
     summary: "Transfers a program or file over the console using XMODEM.",
     snippet: "XMODEM ${1|SEND,RECEIVE|}",
   },
@@ -373,11 +364,7 @@ export const FILEIO_KEYWORDS: MMBasicKeywordList = [
     name: "YMODEM",
     kind: "command",
     category: "Files",
-    syntax: [
-      "YMODEM SEND [file$]",
-      "YMODEM RECEIVE [file$]",
-      "YMODEM CRUNCH",
-    ],
+    syntax: ["YMODEM SEND [file$]", "YMODEM RECEIVE [file$]", "YMODEM CRUNCH"],
     summary: "Transfers a program or file over the console using YMODEM.",
     snippet: "YMODEM ${1|SEND,RECEIVE|}",
   },

@@ -207,11 +207,9 @@ export const CORE_KEYWORDS: MMBasicKeywordList = [
     category: "Control flow",
     syntax: ["EXIT DO", "EXIT FOR", "EXIT SUB", "EXIT FUNCTION"],
     summary: "Leaves the enclosing loop, subroutine or function immediately.",
-    example: [
-      "FOR i = 1 TO 1000",
-      "  IF found THEN EXIT FOR",
-      "NEXT i",
-    ].join("\n"),
+    example: ["FOR i = 1 TO 1000", "  IF found THEN EXIT FOR", "NEXT i"].join(
+      "\n",
+    ),
     snippet: "EXIT ${1|DO,FOR,SUB,FUNCTION|}",
   },
   {
@@ -400,7 +398,8 @@ export const CORE_KEYWORDS: MMBasicKeywordList = [
       "DIM p AS Point",
       "p.x = 10",
     ].join("\n"),
-    snippet: "TYPE ${1:Name}\n\t${2:member} AS ${3|INTEGER,FLOAT,STRING|}\nEND TYPE",
+    snippet:
+      "TYPE ${1:Name}\n\t${2:member} AS ${3|INTEGER,FLOAT,STRING|}\nEND TYPE",
   },
   {
     name: "END TYPE",
@@ -484,11 +483,8 @@ export const CORE_KEYWORDS: MMBasicKeywordList = [
     syntax: ["CALL usersubname$ [, arguments ...]"],
     summary:
       "Calls a subroutine whose name is held in a string, which allows dispatch tables.",
-    example: [
-      'handler$ = "DrawScreen"',
-      "CALL handler$, 1",
-    ].join("\n"),
-    snippet: 'CALL ${1:name$}${2:, args}',
+    example: ['handler$ = "DrawScreen"', "CALL handler$, 1"].join("\n"),
+    snippet: "CALL ${1:name$}${2:, args}",
   },
   {
     name: "CSUB",
@@ -554,9 +550,10 @@ export const CORE_KEYWORDS: MMBasicKeywordList = [
     syntax: ["PAUSE delay"],
     summary:
       "Suspends the program for the given number of milliseconds. Fractions are allowed for short delays.",
-    example: ["PAUSE 1000   ' one second", "PAUSE 0.5    ' 500 microseconds"].join(
-      "\n",
-    ),
+    example: [
+      "PAUSE 1000   ' one second",
+      "PAUSE 0.5    ' 500 microseconds",
+    ].join("\n"),
     snippet: "PAUSE ${1:1000}",
   },
   {
@@ -579,10 +576,7 @@ export const CORE_KEYWORDS: MMBasicKeywordList = [
     category: "Program control",
     syntax: ["DATA constant [, constant] ..."],
     summary: "Stores constants in the program for READ to retrieve.",
-    example: [
-      'DATA "red", 1, "green", 2',
-      "READ name$, code",
-    ].join("\n"),
+    example: ['DATA "red", 1, "green", 2', "READ name$, code"].join("\n"),
     snippet: "DATA ${1:value}",
   },
   {

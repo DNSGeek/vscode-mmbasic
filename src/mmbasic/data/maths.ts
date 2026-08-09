@@ -158,10 +158,7 @@ export const MATH_KEYWORDS: MMBasicKeywordList = [
     syntax: ["RND", "RND( number )"],
     summary:
       "Pseudo random number from 0 up to but not including 1. Seed it with RANDOMIZE.",
-    example: [
-      "RANDOMIZE TIMER",
-      "dice = INT(RND * 6) + 1",
-    ].join("\n"),
+    example: ["RANDOMIZE TIMER", "dice = INT(RND * 6) + 1"].join("\n"),
     snippet: "RND",
   },
   {
@@ -210,10 +207,9 @@ export const MATH_KEYWORDS: MMBasicKeywordList = [
     category: "Bit operations",
     syntax: ["BIT( var%, bitno )", "BIT( var%, bitno ) = value"],
     summary: "Reads or sets a single bit of a 64 bit integer.",
-    example: [
-      "BIT(flags%, 3) = 1",
-      'IF BIT(flags%, 3) THEN PRINT "set"',
-    ].join("\n"),
+    example: ["BIT(flags%, 3) = 1", 'IF BIT(flags%, 3) THEN PRINT "set"'].join(
+      "\n",
+    ),
     snippet: "BIT(${1:var%}, ${2:bitno})",
   },
   {
@@ -285,7 +281,8 @@ export const MATH_KEYWORDS: MMBasicKeywordList = [
       "Vector: V_PRINT, V_NORMALISE, V_MULT, V_CROSS, V_ROTATE.",
       "Also FFT, SENSORFUSION, SINC, PID, AES128, RANDOMIZE.",
     ],
-    snippet: "MATH ${1|SET,SCALE,ADD,INTERPOLATE,WINDOW,SLICE,INSERT,POWER,SHIFT,FFT,RANDOMIZE|}",
+    snippet:
+      "MATH ${1|SET,SCALE,ADD,INTERPOLATE,WINDOW,SLICE,INSERT,POWER,SHIFT,FFT,RANDOMIZE|}",
   },
   {
     name: "MATH SET",
@@ -415,7 +412,8 @@ export const MATH_KEYWORDS: MMBasicKeywordList = [
       "PRINT MATH(MEAN samples())",
       "PRINT MATH(SD samples())",
     ].join("\n"),
-    snippet: "MATH(${1|LOG10,COSH,SINH,TANH,RAND,MIN,MAX,SUM,MEAN,MEDIAN,SD|} ${2:arg})",
+    snippet:
+      "MATH(${1|LOG10,COSH,SINH,TANH,RAND,MIN,MAX,SUM,MEAN,MEDIAN,SD|} ${2:arg})",
   },
 
   // --------------------------------------------------------- memory / poking

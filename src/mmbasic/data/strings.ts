@@ -36,11 +36,13 @@ export const STRING_KEYWORDS: MMBasicKeywordList = [
     syntax: ["MID$( string$, start )", "MID$( string$, start, nbr )"],
     summary:
       "Substring starting at 'start' (1 based). Without nbr it runs to the end of the string.",
-    notes: ["MID$ can also be used on the left of an assignment to overwrite characters in place."],
+    notes: [
+      "MID$ can also be used on the left of an assignment to overwrite characters in place.",
+    ],
     example: [
       'PRINT MID$("Hello", 2, 3)   \' ell',
       's$ = "Hello"',
-      's$ = MID$(s$, 2)            \' ello',
+      "s$ = MID$(s$, 2)            ' ello",
     ].join("\n"),
     snippet: "MID$(${1:string$}, ${2:start}, ${3:count})",
   },
@@ -207,7 +209,8 @@ export const STRING_KEYWORDS: MMBasicKeywordList = [
       "Packs a number into its raw bytes as a string. Type is INT8/16/32/64, UINT8/16/32/64, SINGLE or DOUBLE.",
     notes: ["Little endian by default. Add BIG for big endian."],
     example: ["packed$ = BIN2STR$(INT16, 1234)"].join("\n"),
-    snippet: "BIN2STR$(${1|INT8,UINT8,INT16,UINT16,INT32,UINT32,INT64,UINT64,SINGLE,DOUBLE|}, ${2:value})",
+    snippet:
+      "BIN2STR$(${1|INT8,UINT8,INT16,UINT16,INT32,UINT32,INT64,UINT64,SINGLE,DOUBLE|}, ${2:value})",
   },
   {
     name: "STR2BIN",
@@ -216,7 +219,8 @@ export const STRING_KEYWORDS: MMBasicKeywordList = [
     syntax: ["STR2BIN( type, string$ [, BIG] )"],
     summary: "Unpacks raw bytes held in a string back into a number.",
     example: ["v = STR2BIN(INT16, packed$)"].join("\n"),
-    snippet: "STR2BIN(${1|INT8,UINT8,INT16,UINT16,INT32,UINT32,INT64,UINT64,SINGLE,DOUBLE|}, ${2:string$})",
+    snippet:
+      "STR2BIN(${1|INT8,UINT8,INT16,UINT16,INT32,UINT32,INT64,UINT64,SINGLE,DOUBLE|}, ${2:string$})",
   },
   {
     name: "JSON$",
@@ -266,7 +270,8 @@ export const STRING_KEYWORDS: MMBasicKeywordList = [
       'LONGSTRING APPEND buff%(), "world"',
       "LONGSTRING PRINT buff%()",
     ].join("\n"),
-    snippet: "LONGSTRING ${1|APPEND,CLEAR,CONCAT,COPY,LEFT,LOAD,MID,PRINT,REPLACE,RESIZE,RIGHT,SETBYTE,TRIM,UCASE,LCASE|}",
+    snippet:
+      "LONGSTRING ${1|APPEND,CLEAR,CONCAT,COPY,LEFT,LOAD,MID,PRINT,REPLACE,RESIZE,RIGHT,SETBYTE,TRIM,UCASE,LCASE|}",
   },
   {
     name: "LONGSTRING APPEND",

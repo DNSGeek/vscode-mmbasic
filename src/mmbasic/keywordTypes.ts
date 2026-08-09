@@ -9,12 +9,7 @@
  */
 
 export type MMBasicKind =
-  | "command"
-  | "function"
-  | "keyword"
-  | "variable"
-  | "option"
-  | "constant";
+  "command" | "function" | "keyword" | "variable" | "option" | "constant";
 
 /**
  * Firmware builds a keyword is available on. Omit for keywords that are
