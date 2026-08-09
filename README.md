@@ -1,359 +1,175 @@
-# MMBasic for VSCode
+# vscode-mmbasic
 
-Complete MMBasic language support for Visual Studio Code, including syntax highlighting and serial port communication for Micromite, PicoMite and other MMBasic devices.
+Visual Studio Code support for [MMBasic](https://mmbasic.com/) on the
+Raspberry Pi Pico family, targeting the PicoMite firmware.
 
-**Updated for PicoMite V6.02.00** - Syntax highlighting and autocomplete based on the official PicoMite User Manual.
+Write your program in VS Code, upload it over the USB serial console, run it,
+browse the device filesystem, and poke at variables while it runs. No copy and
+paste into a terminal emulator.
+
+Reference documentation follows the PicoMite User Manual V6.03.01.
 
 ## Features
 
-### 🎨 Syntax Highlighting
+### Language support
 
-- Full syntax highlighting for MMBasic keywords, functions, and commands
-- Support for comments (`'` and `REM`)
-- Number formats: decimal, hexadecimal (&H), binary (&B), octal (&O)
-- Hardware and graphics command highlighting
-- Code folding for blocks
+- Completion for 334 commands, functions, options and system variables,
+  each with a syntax signature and a category
+- Snippet bodies with tab stops for anything that takes arguments, including
+  choice lists for enumerated parameters such as `SETPIN` modes
+- Hover documentation with syntax, notes and a worked example
+- Multi word commands resolve as a unit, so hovering either half of
+  `ARRAY SLICE` or any word of `WEB MQTT PUBLISH` gives the right entry
+- Obsolete keywords are marked deprecated and point at their replacement
+- Completions are suppressed inside comments and string literals
 
-### 💡 IntelliSense & Autocomplete
+### Device integration
 
-- Smart code completion for keywords, functions, and commands
-- Parameter hints with snippets
-- Hover documentation with syntax examples
-- Context-aware suggestions
+- Connect to a PicoMite over the USB serial console, with port selection from
+  a list of detected devices
+- Upload the active editor or a selection, using `AUTOSAVE` as the transfer
+  mechanism
+- Run and stop programs, and send arbitrary commands to the prompt
+- File browser tree view for the on-device filesystem, with upload, download,
+  open and delete
+- Serial output in a dedicated Output channel
+- Status bar item showing connection state, click to connect or disconnect
 
-### 🗂️ Remote File Browser (New in v1.2.0)
+### Debugging
 
-- Browse files directly on your PicoMite device
-- Upload/download files between computer and device
-- Delete files remotely
-- View A: (flash) and B: (SD card) drives
-- Tree view in MMBasic sidebar
+The PicoMite has no true stepping debugger, so what is here is pragmatic
+rather than complete: `TRON`-based line tracing, a variables tree view, and
+commands to inspect a variable or evaluate an expression by sending `PRINT`
+to the prompt. Useful, but do not expect breakpoints to behave like a native
+debug adapter.
 
-### 🐛 Basic Debugger (New in v1.2.0)
+## Requirements
 
-- Start debugging with F5
-- Step through code with F10
-- Inspect variable values during execution
-- Evaluate expressions on the fly
-- Debug output channel
-- Variable inspection view
+- VS Code 1.75 or later
+- A device running PicoMite, PicoMiteVGA, PicoMiteHDMI, WebMite or a related
+  MMBasic firmware build
+- A USB serial connection to that device
 
-### 🔌 Serial Port Communication
-
-- Connect directly to MMBasic devices via serial port
-- Send programs from VSCode to your device
-- Execute code line-by-line or selections
-- Interactive terminal output
-- Run and stop programs remotely
-- List files on the device
+The extension uses the [`serialport`](https://serialport.io/) native module.
+Prebuilt binaries cover the common platforms; if your platform is not covered
+you will need a build toolchain when the module installs.
 
 ## Installation
 
-### From Source
-
-1. **Clone or download this repository**
-
-2. **Install dependencies**
-
-   ```bash
-   cd vscode-mmbasic
-   npm install
-   ```
-
-3. **Compile the TypeScript code**
-
-   ```bash
-   npm run compile
-   ```
-
-4. **Open in VSCode and test**
-   - Press `F5` to launch Extension Development Host
-   - Open a `.bas` or `.mmb` file
-
-### Package as VSIX
+### From a VSIX
 
 ```bash
-npm install -g @vscode/vsce
-vsce package
+npx vsce package
+code --install-extension vscode-mmbasic-2.0.0.vsix
 ```
 
-Then install the `.vsix` file via Extensions → Install from VSIX...
+### From source
 
-## Serial Port Setup
-
-### Quick Start
-
-1. **Connect your MMBasic device** via USB
-2. **Open the Command Palette** (`Ctrl+Shift+P` or `Cmd+Shift+P`)
-3. **Run:** `MMBasic: Connect to Device`
-4. **Select your serial port** from the list
-
-### Configuration
-
-Open VSCode settings and search for "MMBasic":
-
-- **Serial Port**: Default port (e.g., `COM3`, `/dev/ttyUSB0`, `/dev/tty.usbserial`)
-- **Baud Rate**: Communication speed (default: 38400)
-  - Options: 9600, 19200, 38400, 57600, 115200
-- **Auto Connect**: Automatically connect on startup
-- **Line Ending**: Line termination for serial communication
-
-Example settings.json:
-
-```json
-{
-  "mmbasic.serialPort": "/dev/ttyUSB0",
-  "mmbasic.baudRate": 38400,
-  "mmbasic.autoConnect": false,
-  "mmbasic.lineEnding": "\\r\\n"
-}
+```bash
+git clone https://github.com/DNSGeek/vscode-mmbasic.git
+cd vscode-mmbasic
+npm install
+npm run compile
 ```
+
+Then press `F5` in VS Code to launch an Extension Development Host.
+
+## Configuration
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `mmbasic.serialPort` | unset | Device path, for example `/dev/tty.usbmodem1101` or `COM3`. Prompts for a selection when unset or not present. |
+| `mmbasic.baudRate` | `38400` | Console baud rate. Must match `OPTION BAUDRATE` on the device. |
+| `mmbasic.lineEnding` | `\r\n` | Line ending sent with each command. |
+| `mmbasic.autoConnect` | `false` | Connect on activation. |
 
 ## Commands
 
-All commands are available via Command Palette (`Ctrl+Shift+P`):
+| Command | ID |
+| --- | --- |
+| Connect Serial | `mmbasic.connectSerial` |
+| Disconnect Serial | `mmbasic.disconnectSerial` |
+| Send File | `mmbasic.sendFile` |
+| Send Selection | `mmbasic.sendSelection` |
+| Run Program | `mmbasic.runProgram` |
+| Stop Program | `mmbasic.stopProgram` |
+| List Files | `mmbasic.listFiles` |
+| Clear Terminal | `mmbasic.clearTerminal` |
+| Refresh Files | `mmbasic.refreshFiles` |
+| Upload File | `mmbasic.uploadFile` |
+| Download File | `mmbasic.downloadFile` |
+| Delete File | `mmbasic.deleteFile` |
+| Open Remote File | `mmbasic.openRemoteFile` |
+| Start Debugging | `mmbasic.startDebugging` |
+| Stop Debugging | `mmbasic.stopDebugging` |
+| Step Over | `mmbasic.debugStepOver` |
+| Continue | `mmbasic.debugContinue` |
+| Inspect Variable | `mmbasic.inspectVariable` |
+| Evaluate Expression | `mmbasic.evaluateExpression` |
 
-### Serial Connection
-
-| Command                                | Keyboard Shortcut | Description                        |
-| -------------------------------------- | ----------------- | ---------------------------------- |
-| `MMBasic: Connect to Device`           | -                 | Connect to serial port             |
-| `MMBasic: Disconnect from Device`      | -                 | Disconnect from device             |
-| `MMBasic: Send Current File to Device` | `Ctrl+Shift+U`    | Upload entire file                 |
-| `MMBasic: Send Selection to Device`    | `Ctrl+Enter`      | Send selected code or current line |
-| `MMBasic: Run Program on Device`       | `Ctrl+Shift+R`    | Execute the program                |
-| `MMBasic: Stop Program`                | -                 | Stop running program (Ctrl+C)      |
-| `MMBasic: List Files on Device`        | -                 | Show files stored on device        |
-| `MMBasic: Clear Terminal`              | -                 | Clear output window                |
-
-### File Browser (v1.2.0)
-
-| Command                          | Description                  |
-| -------------------------------- | ---------------------------- |
-| `MMBasic: Refresh Files`         | Reload file list from device |
-| `MMBasic: Upload File to Device` | Upload local file            |
-| `MMBasic: Download File`         | Download file from device    |
-| `MMBasic: Delete File`           | Delete file from device      |
-
-### Debugger (v1.2.0)
-
-| Command                        | Keyboard Shortcut | Description                  |
-| ------------------------------ | ----------------- | ---------------------------- |
-| `MMBasic: Start Debugging`     | `F5`              | Start debugging current file |
-| `MMBasic: Stop Debugging`      | `Shift+F5`        | Stop debugging               |
-| `MMBasic: Step Over`           | `F10`             | Execute next line            |
-| `MMBasic: Continue`            | `F5` (in debug)   | Continue execution           |
-| `MMBasic: Inspect Variable`    | -                 | View variable value          |
-| `MMBasic: Evaluate Expression` | -                 | Evaluate expression          |
-
-### Status Bar
-
-The status bar shows connection status:
-
-- 🔌 **MMBasic: Disconnected** - Click to connect
-- ✓ **MMBasic: Connected** - Click to disconnect
-
-## Usage Examples
-
-### Using Autocomplete
-
-The extension provides intelligent code completion as you type:
-
-1. **Start typing a keyword**
-   - Type `for` → Get full FOR loop snippet
-   - Type `if` → Get IF...THEN...END IF structure
-   - Type `sub` → Get SUB...END SUB template
-
-2. **Function completion**
-   - Type `print` → See PRINT with parameter hints
-   - Type `sin` → Get SIN function with parameter placeholder
-   - Type `len` → Get LEN function ready to use
-
-3. **Hardware commands**
-   - Type `setpin` → Get SETPIN with mode options (DIN, DOUT, etc.)
-   - Type `pwm` → Get PWM with parameter placeholders
-   - Type `i2c` → See I2C commands (OPEN, WRITE, READ, CLOSE)
-
-4. **Hover for help**
-   - Hover over any keyword to see documentation
-   - Examples and syntax shown in tooltip
-   - Quick reference without leaving your code
-
-### Example 1: Upload and Run a Program
-
-1. Write your MMBasic code:
-
-```basic
-' Blink LED example
-SETPIN 13, DOUT
-
-FOR i = 1 TO 10
-  PIN(13) = 1
-  PAUSE 500
-  PIN(13) = 0
-  PAUSE 500
-NEXT i
-
-PRINT "Done!"
-```
-
-2. Press `Ctrl+Shift+U` to send the file to the device
-3. Press `Ctrl+Shift+R` to run the program
-
-### Example 2: Interactive Development
-
-1. Connect to your device
-2. Select a line or code block
-3. Press `Ctrl+Enter` to execute it immediately
-4. Watch the output in the MMBasic Serial terminal
-
-### Example 3: Testing Individual Lines
-
-Write some test code:
-
-```basic
-PRINT "Hello from MMBasic!"
-x = 42
-PRINT "The answer is "; x
-```
-
-Place cursor on any line and press `Ctrl+Enter` to execute just that line.
-
-## Serial Terminal Output
-
-All serial communication appears in the **MMBasic Serial** output panel:
-
-- Sent commands are prefixed with `>`
-- Device responses appear in real-time
-- Use `MMBasic: Clear Terminal` to clear the output
-
-## Troubleshooting
-
-### "No serial ports found"
-
-**Windows:**
-
-- Install USB-to-Serial drivers for your device
-- Check Device Manager for COM port
-
-**macOS:**
-
-- Port appears as `/dev/tty.usbserial-*` or `/dev/tty.SLAB_USBtoUART`
-- May need to install CH340 or FTDI drivers
-
-**Linux:**
-
-- Add user to `dialout` group: `sudo usermod -a -G dialout $USER`
-- Log out and back in
-- Check `ls /dev/ttyUSB*` or `ls /dev/ttyACM*`
-
-### "Permission denied" (Linux/macOS)
-
-```bash
-# Linux
-sudo chmod 666 /dev/ttyUSB0
-
-# Or add to dialout group (permanent)
-sudo usermod -a -G dialout $USER
-```
-
-### Connection Fails
-
-- Verify correct baud rate (38400 is standard for MMBasic)
-- Try different line endings in settings
-- Close other applications using the serial port
-- Power cycle your device
-
-### Extension Won't Compile
-
-Make sure you have the correct Node.js version:
-
-```bash
-node --version  # Should be v16 or higher
-npm install
-npm run compile
-```
-
-## Supported File Extensions
-
-- `.bas` - BASIC files
-- `.mmb` - MMBasic files
-
-## Development
-
-### Project Structure
+## Project layout
 
 ```
-vscode-mmbasic/
-├── src/
-│   ├── extension.ts           # Main extension entry point
-│   └── serialPortManager.ts   # Serial port handling
-├── syntaxes/
-│   └── mmbasic.tmLanguage.json  # Syntax highlighting
-├── package.json               # Extension manifest
-└── tsconfig.json             # TypeScript config
+src/
+  extension.ts             activation, command registration, status bar
+  serialPortManager.ts     port lifecycle, program upload, data listeners
+  completionProvider.ts    completion items built from the keyword model
+  hoverProvider.ts         hover lookup, including multi word commands
+  fileBrowserProvider.ts   tree view over the device filesystem
+  debugger.ts              TRON based tracing and the variables view
+  mmbasic/
+    keywordTypes.ts        the MMBasicKeyword shape
+    keywords.ts            aggregation, lookup index, markdown rendering
+    data/                  keyword tables, split by domain
 ```
 
-### Building from Source
+### Adding or correcting a keyword
 
-```bash
-npm install
-npm run compile
-npm run watch  # Auto-compile on changes
+Everything the language providers know lives in `src/mmbasic/data/`. Add an
+entry to the file matching its domain and both completion and hover pick it up
+with no further changes:
+
+```ts
+{
+  name: "PAUSE",
+  kind: "command",
+  category: "Program control",
+  syntax: ["PAUSE delay"],
+  summary: "Suspends the program for the given number of milliseconds.",
+  example: "PAUSE 1000   ' one second",
+  snippet: "PAUSE ${1:1000}",
+}
 ```
 
-### Testing
+`name` may contain spaces for multi word commands. `snippet` defaults to the
+plain name when omitted. Set `variants` to restrict an entry to particular
+firmware builds, and `obsolete` with `replacedBy` for compatibility keywords.
 
-Press `F5` in VSCode to launch Extension Development Host.
+## Known limitations
+
+- A handful of specialised keywords are present for completion but carry no
+  example yet: `TILEMAP`, `TURTLE`, `DRAW3D`, `STEPPER`, `SPRITE()`, `IMAGE`
+  and `STRUCT`
+- `PIO` and `MATH` are documented at the family level plus their common
+  subcommands rather than every individual form
+- Roughly 20 of the 113 `OPTION` settings are included, chosen as the ones
+  likely to appear in a program rather than typed once at the prompt
+- The file browser assumes drives `A:` and `B:` and parses the text output of
+  `FILES`, so unusual listings may not parse cleanly
+- Debugging is trace based, not a real debug adapter
 
 ## Contributing
 
-Contributions welcome! To add features:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## Known Limitations
-
-- Serial port selection doesn't auto-detect all device types
-- No file download from device yet (planned feature)
-- Line-by-line execution may have small delays
-
-## Roadmap
-
-- [ ] Download programs from device
-- [ ] Auto-detection of MMBasic devices
-- [ ] Code snippets and IntelliSense
-- [ ] Integrated debugger support
-- [ ] File manager for device storage
-- [ ] Terminal with command history
+Corrections to the keyword tables are especially welcome, particularly for
+hardware the author does not have to hand. Keep the summaries and examples
+written for this project rather than pasted from the manual.
 
 ## License
 
-GPL v2 License
+See [LICENSE.md](LICENSE.md).
 
-## Credits
+## Acknowledgements
 
-- MMBasic language by Geoff Graham
-- Extension development for the MMBasic community
-
-## Links
-
-- [MMBasic Official Site](http://mmbasic.com/)
-- [Micromite Information](https://geoffg.net/micromite.html)
-- [The Back Shed Forum](https://www.thebackshed.com/forum/forum_topics.asp?FID=16)
-
-## Support
-
-For issues or questions:
-
-- Check the [troubleshooting section](#troubleshooting)
-- Open an issue on GitHub
-- Visit the MMBasic community forums
-
----
-
-Happy coding with MMBasic! 🚀
+MMBasic and the PicoMite firmware are the work of Geoff Graham and Peter
+Mather. This extension is an independent project and is not affiliated with
+or endorsed by them.
