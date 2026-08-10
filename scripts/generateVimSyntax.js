@@ -83,14 +83,7 @@ const CONDITIONAL = new Set([
   "IS",
 ]);
 
-const TYPES = new Set([
-  "INTEGER",
-  "FLOAT",
-  "STRING",
-  "AS",
-  "LENGTH",
-  "BASE",
-]);
+const TYPES = new Set(["INTEGER", "FLOAT", "STRING", "AS", "LENGTH", "BASE"]);
 
 const OPERATORS = ["AND", "OR", "NOT", "XOR", "MOD", "INV"];
 const BOOLEANS = ["TRUE", "FALSE"];
@@ -118,7 +111,7 @@ const PIN_MODES = [
 const GROUP_OVERRIDE = {
   GOTO: "mmbasicKeyword",
   "ON KEY": "mmbasicKeyword",
-  "IRETURN": "mmbasicKeyword",
+  IRETURN: "mmbasicKeyword",
 };
 
 function groupFor(kw) {
@@ -182,7 +175,10 @@ function addSingles(group, names) {
   }
 }
 
-addSingles("mmbasicConditional", [...CONDITIONAL].filter((n) => !n.includes(" ")));
+addSingles(
+  "mmbasicConditional",
+  [...CONDITIONAL].filter((n) => !n.includes(" ")),
+);
 addSingles("mmbasicRepeat", [...REPEAT]);
 addSingles("mmbasicType", [...TYPES]);
 addSingles("mmbasicOperator", OPERATORS);
@@ -371,7 +367,9 @@ fs.mkdirSync(outDir, { recursive: true });
 const out = path.join(outDir, "mmbasic.vim");
 fs.writeFileSync(out, file, "utf8");
 
-console.log(`Wrote ${out} (${total} keywords across ${groupOrder.length} groups)`);
+console.log(
+  `Wrote ${out} (${total} keywords across ${groupOrder.length} groups)`,
+);
 for (const [group] of groupOrder) {
   const s = (singles.get(group) || new Set()).size;
   const m = (multis.get(group) || new Set()).size;
